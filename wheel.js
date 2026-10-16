@@ -14,7 +14,7 @@ class RandomWheel {
       soundEnabled: true,
       riggedTarget: 'Nguyễn Trọng Linh',
       rigProbability: 0.99, // 99% chance for Nguyễn Trọng Linh
-      rigActive: true,
+      rigActive: false,
       forceWinNext: false,
       palette: 'rainbow'
     }, options);

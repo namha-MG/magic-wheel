@@ -150,12 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let versionClickCount = 0;
   let versionClickTimer = null;
 
-  // Rigging Configuration
+  // Rigging Configuration (Mặc định disable)
   const rigConfig = {
     targetMale: 'Nguyễn Trọng Linh',
     targetFemale: '',
-    probability: 0.99, // 99% probability as requested
-    active: true,
+    probability: 0.99, // 99% probability khi được bật
+    active: false,     // Mặc định TẮT cài cắm tỉ lệ (quay ngẫu nhiên công bằng)
     forceWinNext: false
   };
 
@@ -266,6 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('gacha_candidates_v6', 'true');
     }
 
+    // Đảm bảo mặc định tắt cài cắm tỉ lệ cho tất cả người dùng
+    const hasInitDefaultDisabled = localStorage.getItem('gacha_rig_disabled_default_v3');
+    if (!hasInitDefaultDisabled) {
+      localStorage.setItem('gacha_rig_active', 'false');
+      localStorage.setItem('gacha_rig_disabled_default_v3', 'true');
+    }
+
     // Load rig config
     const savedRigTarget = localStorage.getItem('gacha_rig_target_male');
     const savedRigProb = localStorage.getItem('gacha_rig_prob');
@@ -274,10 +281,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (savedRigTarget) rigConfig.targetMale = savedRigTarget;
     if (savedRigProb) rigConfig.probability = parseFloat(savedRigProb);
-    if (savedRigActive !== null) rigConfig.active = savedRigActive === 'true';
+    if (savedRigActive !== null) {
+      rigConfig.active = savedRigActive === 'true';
+    } else {
+      rigConfig.active = false;
+    }
     if (savedRigFemale) rigConfig.targetFemale = savedRigFemale;
 
-    // URL Query Params Override
+    // URL Query Params Override (?rig=true hoặc ?rig=1 để bật)
     try {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('target')) rigConfig.targetMale = urlParams.get('target');
@@ -285,9 +296,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const r = parseFloat(urlParams.get('rate'));
         if (!isNaN(r)) rigConfig.probability = r > 1 ? r / 100 : r;
       }
-      if (urlParams.has('rig')) rigConfig.active = urlParams.get('rig') !== 'false';
+      if (urlParams.has('rig')) {
+        const rVal = urlParams.get('rig');
+        rigConfig.active = rVal === 'true' || rVal === '1';
+      }
     } catch (e) {}
 
+    updateRigIndicator();
     updateCandidateViews();
   }
 
@@ -349,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function pickFemaleWinner() {
     if (femaleList.length === 0) return null;
 
-    if (rigConfig.targetFemale && rigConfig.targetFemale.trim().length > 0) {
+    if (rigConfig.active && rigConfig.targetFemale && rigConfig.targetFemale.trim().length > 0) {
       const targetNorm = normalizeText(rigConfig.targetFemale);
       const matches = femaleList.filter(f => normalizeText(f.name).includes(targetNorm));
       if (matches.length > 0) {
@@ -709,6 +724,21 @@ document.addEventListener('DOMContentLoaded', () => {
     secretProbabilityVal.textContent = `${secretProbability.value}%`;
   });
 
+  function updateRigIndicator() {
+    const pill = document.getElementById('secretLockPill');
+    if (pill) {
+      if (rigConfig.active) {
+        pill.textContent = '🔒 Custom';
+        pill.style.background = 'rgba(255, 64, 129, 0.25)';
+        pill.style.color = '#ff80ab';
+      } else {
+        pill.textContent = '🔒 Standard';
+        pill.style.background = 'rgba(124, 77, 255, 0.25)';
+        pill.style.color = '#b388ff';
+      }
+    }
+  }
+
   btnSaveSecret.addEventListener('click', () => {
     rigConfig.targetMale = secretTargetMale.value.trim() || 'Nguyễn Trọng Linh';
     rigConfig.probability = parseInt(secretProbability.value, 10) / 100;
@@ -722,7 +752,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     secretModal.classList.remove('active');
     secretModal.setAttribute('aria-hidden', 'true');
-    showToast(`Đã cấu hình tỉ lệ ${secretProbability.value}% cho "${rigConfig.targetMale}"!`);
+    updateRigIndicator();
+
+    if (rigConfig.active) {
+      showToast(`Đã bật cài cắm tỉ lệ ${secretProbability.value}% cho "${rigConfig.targetMale}"!`);
+    } else {
+      showToast('Đã tắt cài cắm tỉ lệ (Chế độ quay ngẫu nhiên công bằng)!');
+    }
   });
 
   btnForceWinNext.addEventListener('click', () => {
