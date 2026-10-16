@@ -466,12 +466,43 @@ document.addEventListener('DOMContentLoaded', () => {
     revealFemaleAvatar.src = female.avatar;
     revealFemaleName.textContent = female.name;
 
+    // Apply LOL Rank to Male & Female Reveal Cards
+    const maleRank = (window.getMemberRank) ? window.getMemberRank(male.name) : window.LOL_RANKS.emerald;
+    const femaleRank = (window.getMemberRank) ? window.getMemberRank(female.name) : window.LOL_RANKS.emerald;
+
+    applyRankToReveal('revealMale', male, maleRank);
+    applyRankToReveal('revealFemale', female, femaleRank);
+
     // Mỗi cặp 1 câu chúc ngọt ngào, ấm áp độc nhất không lặp lại
     romanticQuote.textContent = getUniqueSweetWish();
 
     // Show Romantic Match Modal
     romanticModal.classList.add('active');
     romanticModal.setAttribute('aria-hidden', 'false');
+  }
+
+  function applyRankToReveal(prefix, person, rank) {
+    const cardEl = document.getElementById(`${prefix}Card`);
+    const frameImg = document.getElementById(`${prefix}FrameImg`);
+    const rankIcon = document.getElementById(`${prefix}RankIcon`);
+    const rankText = document.getElementById(`${prefix}RankText`);
+    const rankSub = document.getElementById(`${prefix}RankSub`);
+
+    const allRankClasses = ['rank-challenger', 'rank-master', 'rank-diamond', 'rank-emerald', 'rank-gold', 'rank-iron'];
+
+    if (cardEl) {
+      allRankClasses.forEach(cls => cardEl.classList.remove(cls));
+      cardEl.classList.add(`rank-${rank.id}`);
+    }
+
+    if (frameImg) {
+      frameImg.src = rank.frameImg || `avatars/ranks/frame_${rank.id}.png`;
+      frameImg.alt = rank.name;
+    }
+
+    if (rankIcon) rankIcon.textContent = rank.icon;
+    if (rankText) rankText.textContent = rank.name.toUpperCase();
+    if (rankSub) rankSub.textContent = rank.subtext || `Bậc ${rank.name}`;
   }
 
   function renderHistory() {
@@ -576,13 +607,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     list.forEach((person, idx) => {
+      const rank = (window.getMemberRank) ? window.getMemberRank(person.name) : { id: 'emerald', name: 'Lục Bảo', icon: '🟢' };
       const card = document.createElement('div');
       card.className = 'member-item-card';
       card.innerHTML = `
-        <img class="member-item-avatar" src="${person.avatar}" alt="${escapeHtml(person.name)}">
+        <img class="member-item-avatar rank-${rank.id}" src="${person.avatar}" alt="${escapeHtml(person.name)}">
         <div class="member-item-info">
           <div class="member-item-name" title="${escapeHtml(person.name)}">${escapeHtml(person.name)}</div>
-          <div style="font-size:11px; color:var(--text-dim);">${currentActiveManageGender === 'male' ? 'Đàng Trai' : 'Đàng Gái'}</div>
+          <div style="display:flex; align-items:center; gap:6px; margin-top:2px;">
+            <span style="font-size:11px; color:var(--text-dim);">${currentActiveManageGender === 'male' ? 'Đàng Trai' : 'Đàng Gái'}</span>
+            <span class="member-rank-tag rank-${rank.id}">${rank.icon} ${rank.name}</span>
+          </div>
         </div>
         <button class="member-delete-btn" title="Xóa">✕</button>
       `;

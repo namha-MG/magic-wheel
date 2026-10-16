@@ -51,17 +51,35 @@ class GachaRollerTrack {
   }
 
   createCardElement(candidate, isWinner = false) {
+    const rank = (typeof window !== 'undefined' && window.getMemberRank)
+      ? window.getMemberRank(candidate.name)
+      : { id: 'emerald', name: 'Lục Bảo', icon: '🟢' };
+
     const card = document.createElement('div');
-    card.className = `gacha-card ${this.gender}-card ${isWinner ? 'winner-target' : ''}`;
+    card.className = `gacha-card ${this.gender}-card rank-${rank.id} ${isWinner ? 'winner-target' : ''}`;
     
-    // Avatar
+    // Avatar with mini LOL rank frame
     const avatarWrapper = document.createElement('div');
-    avatarWrapper.className = 'card-avatar-wrapper';
+    avatarWrapper.className = `card-avatar-wrapper rank-${rank.id}`;
+    
     const avatarImg = document.createElement('img');
     avatarImg.className = 'card-avatar-img';
     avatarImg.src = candidate.avatar;
     avatarImg.alt = candidate.name;
     avatarWrapper.appendChild(avatarImg);
+
+    // LOL Summoner Crest Overlay from user image
+    const crestOverlay = document.createElement('img');
+    crestOverlay.className = 'card-crest-overlay';
+    crestOverlay.src = rank.crestImg || `avatars/ranks/crest_${rank.id}.png`;
+    crestOverlay.alt = rank.name;
+    avatarWrapper.appendChild(crestOverlay);
+
+    // Mini Rank Badge
+    const rankBadge = document.createElement('div');
+    rankBadge.className = `card-rank-mini rank-${rank.id}`;
+    rankBadge.innerHTML = `<span class="mini-icon">${rank.icon}</span><span class="mini-name">${rank.name}</span>`;
+    avatarWrapper.appendChild(rankBadge);
 
     // Name
     const nameEl = document.createElement('div');
@@ -73,9 +91,9 @@ class GachaRollerTrack {
     roleEl.className = 'card-gender-role';
     roleEl.textContent = this.gender === 'male' ? 'Đàng Trai' : 'Đàng Gái';
 
-    // Rarity strip
+    // Rarity strip styled with rank gradient
     const rarityStrip = document.createElement('div');
-    rarityStrip.className = 'card-rarity-strip';
+    rarityStrip.className = `card-rarity-strip rank-${rank.id}`;
 
     card.appendChild(avatarWrapper);
     card.appendChild(nameEl);

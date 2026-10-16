@@ -148,15 +148,26 @@
 
       <h2 class="romantic-title celebration-title">GHÉP ĐÔI THÀNH CÔNG!</h2>
 
-      <!-- Couple Showcase Cards -->
+      <!-- Couple Showcase Cards with Authentic LOL Rank Loading Screen Frames -->
       <div class="couple-stage">
         <!-- Male Card -->
-        <div class="couple-card card-male">
-          <div class="avatar-ring-outer male-ring">
-            <img id="revealMaleAvatar" class="couple-avatar-img" src="" alt="Nam">
+        <div class="couple-card card-male" id="revealMaleCard">
+          <div class="lol-loading-card-wrap" id="revealMaleCardWrap">
+            <div class="lol-avatar-slot">
+              <img id="revealMaleAvatar" class="lol-candidate-photo" src="" alt="Nam">
+            </div>
+            <!-- Authentic LOL Rank Frame from user image -->
+            <img id="revealMaleFrameImg" class="lol-card-frame-overlay" src="avatars/ranks/frame_challenger.png" alt="Khung Rank">
           </div>
-          <div class="couple-gender-tag male-tag">ĐÀNG TRAI</div>
-          <div class="couple-name" id="revealMaleName">Nguyễn Trọng Linh</div>
+          <div class="couple-meta-info">
+            <div class="couple-gender-tag male-tag">ĐÀNG TRAI</div>
+            <div class="couple-name" id="revealMaleName">Nguyễn Mạnh Cường</div>
+            <div class="couple-rank-title" id="revealMaleRankTitle">
+              <span class="rank-icon" id="revealMaleRankIcon">👑</span>
+              <span class="rank-name" id="revealMaleRankText">THÁCH ĐẤU</span>
+            </div>
+            <div class="couple-rank-sub" id="revealMaleRankSub">Bậc Thách Đấu • Sếp Cường</div>
+          </div>
         </div>
 
         <!-- Center Love Heart Connector -->
@@ -168,12 +179,23 @@
         </div>
 
         <!-- Female Card -->
-        <div class="couple-card card-female">
-          <div class="avatar-ring-outer female-ring">
-            <img id="revealFemaleAvatar" class="couple-avatar-img" src="" alt="Nữ">
+        <div class="couple-card card-female" id="revealFemaleCard">
+          <div class="lol-loading-card-wrap" id="revealFemaleCardWrap">
+            <div class="lol-avatar-slot">
+              <img id="revealFemaleAvatar" class="lol-candidate-photo" src="" alt="Nữ">
+            </div>
+            <!-- Authentic LOL Rank Frame from user image -->
+            <img id="revealFemaleFrameImg" class="lol-card-frame-overlay" src="avatars/ranks/frame_diamond.png" alt="Khung Rank">
           </div>
-          <div class="couple-gender-tag female-tag">ĐÀNG GÁI</div>
-          <div class="couple-name" id="revealFemaleName">Nguyễn Thùy Tiên</div>
+          <div class="couple-meta-info">
+            <div class="couple-gender-tag female-tag">ĐÀNG GÁI</div>
+            <div class="couple-name" id="revealFemaleName">Nguyễn Thị Thúy Hằng</div>
+            <div class="couple-rank-title" id="revealFemaleRankTitle">
+              <span class="rank-icon" id="revealFemaleRankIcon">💎</span>
+              <span class="rank-name" id="revealFemaleRankText">KIM CƯƠNG</span>
+            </div>
+            <div class="couple-rank-sub" id="revealFemaleRankSub">Bậc Kim Cương • Thế hệ < 95</div>
+          </div>
         </div>
       </div>
 
@@ -325,6 +347,7 @@
   <!-- Scripts -->
   <script src="audio.js"></script>
   <script src="particles.js"></script>
+  <script src="ranks.js"></script>
   <script src="gacha.js"></script>
   <script src="app.js"></script>
 </body>

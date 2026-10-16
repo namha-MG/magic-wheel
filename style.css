@@ -397,6 +397,84 @@ body.gacha-body {
   position: relative;
   background: rgba(0, 0, 0, 0.4);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
+}
+
+.card-avatar-wrapper.rank-challenger {
+  border-color: #ffd700;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.65), 0 0 24px rgba(255, 215, 0, 0.4);
+}
+.card-avatar-wrapper.rank-master {
+  border-color: #e040fb;
+  box-shadow: 0 0 16px rgba(224, 64, 251, 0.65), 0 0 24px rgba(124, 77, 255, 0.4);
+}
+.card-avatar-wrapper.rank-diamond {
+  border-color: #00f0ff;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.65), 0 0 24px rgba(0, 136, 255, 0.4);
+}
+.card-avatar-wrapper.rank-emerald {
+  border-color: #00ff88;
+  box-shadow: 0 0 16px rgba(0, 255, 136, 0.65), 0 0 24px rgba(0, 200, 83, 0.4);
+}
+.card-avatar-wrapper.rank-gold {
+  border-color: #ffc107;
+  box-shadow: 0 0 16px rgba(255, 193, 7, 0.65), 0 0 24px rgba(255, 152, 0, 0.4);
+}
+.card-avatar-wrapper.rank-iron {
+  border: 2px dashed #8d6e63;
+  box-shadow: 0 0 12px rgba(141, 110, 99, 0.65);
+}
+
+/* Mini Rank Badge on Rolling Tape Card */
+.card-rank-mini {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.card-rank-mini.rank-challenger {
+  background: rgba(10, 20, 40, 0.88);
+  border: 1px solid #ffd700;
+  color: #ffd700;
+}
+.card-rank-mini.rank-master {
+  background: rgba(30, 10, 40, 0.88);
+  border: 1px solid #e040fb;
+  color: #e040fb;
+}
+.card-rank-mini.rank-diamond {
+  background: rgba(10, 25, 45, 0.88);
+  border: 1px solid #00f0ff;
+  color: #00f0ff;
+}
+.card-rank-mini.rank-emerald {
+  background: rgba(10, 35, 20, 0.88);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+}
+.card-rank-mini.rank-gold {
+  background: rgba(35, 25, 10, 0.88);
+  border: 1px solid #ffc107;
+  color: #ffc107;
+}
+.card-rank-mini.rank-iron {
+  background: rgba(35, 25, 20, 0.88);
+  border: 1px dashed #bcaaa4;
+  color: #bcaaa4;
 }
 
 .card-avatar-img {
@@ -405,7 +483,7 @@ body.gacha-body {
   object-fit: cover;
 }
 
-/* Card Rarity Bottom Color Strip (CS:GO Covert / Classified / Mil-Spec) */
+/* Card Rarity Bottom Color Strip by Rank */
 .card-rarity-strip {
   position: absolute;
   bottom: 0;
@@ -419,9 +497,29 @@ body.gacha-body {
   background: var(--female-neon);
 }
 
-.gold-rarity .card-rarity-strip {
-  background: var(--gold-csgo);
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+.card-rarity-strip.rank-challenger {
+  background: linear-gradient(90deg, #ffd700 0%, #00e5ff 100%);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.8);
+}
+.card-rarity-strip.rank-master {
+  background: linear-gradient(90deg, #e040fb 0%, #7c4dff 100%);
+  box-shadow: 0 0 10px rgba(224, 64, 251, 0.8);
+}
+.card-rarity-strip.rank-diamond {
+  background: linear-gradient(90deg, #a0f4ff 0%, #0077b6 100%);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.8);
+}
+.card-rarity-strip.rank-emerald {
+  background: linear-gradient(90deg, #69f0ae 0%, #004d20 100%);
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
+}
+.card-rarity-strip.rank-gold {
+  background: linear-gradient(90deg, #ffe082 0%, #ff6f00 100%);
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.8);
+}
+.card-rarity-strip.rank-iron {
+  background: linear-gradient(90deg, #8d6e63 0%, #3e2723 100%);
+  box-shadow: 0 0 8px rgba(141, 110, 99, 0.8);
 }
 
 .card-name {
@@ -701,59 +799,245 @@ body.gacha-body {
   margin-bottom: 24px;
 }
 
+/* ==========================================================================
+   LOL RANKED FRAMES SYSTEM (Khung Rank Liên Minh Huyền Thoại)
+   ========================================================================== */
+
+/* ==========================================================================
+   OFFICIAL LEAGUE OF LEGENDS LOADING SCREEN CARD & RANK SYSTEM
+   ========================================================================== */
+
+/* The Couple Card in Modal */
 .couple-card {
   flex: 1;
-  max-width: 220px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  max-width: 250px;
+  background: rgba(14, 18, 36, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-md);
-  padding: 16px 14px 18px;
+  padding: 14px 12px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: visible;
 }
 
 .couple-card.card-male {
-  border-top: 3px solid var(--male-neon);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 30px var(--male-glow);
   animation: glideFromLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .couple-card.card-female {
-  border-top: 3px solid var(--female-neon);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 30px var(--female-glow);
   animation: glideFromRight 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes glideFromLeft {
-  from { opacity: 0; transform: translateX(-40px); }
-  to { opacity: 1; transform: translateX(0); }
+/* Rank Glows on Modal Cards */
+.couple-card.rank-challenger {
+  border-color: #ffd700;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 240, 255, 0.5);
+}
+.couple-card.rank-master {
+  border-color: #e040fb;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(224, 64, 251, 0.5);
+}
+.couple-card.rank-diamond {
+  border-color: #00f0ff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 240, 255, 0.5);
+}
+.couple-card.rank-emerald {
+  border-color: #00ff88;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 255, 136, 0.5);
+}
+.couple-card.rank-gold {
+  border-color: #ffc107;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 193, 7, 0.5);
+}
+.couple-card.rank-iron {
+  border-color: #8d6e63;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(141, 110, 99, 0.5);
 }
 
-@keyframes glideFromRight {
-  from { opacity: 0; transform: translateX(40px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-.avatar-ring-outer {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  padding: 4px;
-  margin-bottom: 12px;
+/* Authentic LOL Loading Screen Card Frame Wrap */
+.lol-loading-card-wrap {
   position: relative;
+  width: 190px;
+  height: 346px; /* Aspect ratio matching 169 x 308 */
+  margin: 0 auto 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+  background: #090f1b;
 }
 
-.male-ring {
-  background: linear-gradient(135deg, var(--male-neon) 0%, #3d5afe 100%);
-  box-shadow: 0 0 20px var(--male-glow);
+/* Iron subtle wobble animation */
+.couple-card.rank-iron .lol-loading-card-wrap {
+  animation: ironWobble 3s infinite ease-in-out;
 }
 
-.female-ring {
-  background: linear-gradient(135deg, var(--female-neon) 0%, #ff80ab 100%);
-  box-shadow: 0 0 20px var(--female-glow);
+@keyframes ironWobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1.5deg); }
+  75% { transform: rotate(-1.5deg); }
+}
+
+/* Avatar slot positioned exactly inside the center circle hole */
+.lol-avatar-slot {
+  position: absolute;
+  top: 44.8%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+  background: #000;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.8);
+}
+
+.lol-candidate-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Full LOL Loading Screen Frame Overlay from user image */
+.lol-card-frame-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Metadata Info Under the Loading Card */
+.couple-meta-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.couple-gender-tag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-bottom: 4px;
+}
+
+.male-tag {
+  background: rgba(0, 210, 255, 0.15);
+  color: var(--male-neon);
+}
+
+.female-tag {
+  background: rgba(255, 42, 133, 0.15);
+  color: var(--female-neon);
+}
+
+.couple-name {
+  font-family: var(--font-heading);
+  font-size: 16.5px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 3px;
+  word-break: break-word;
+}
+
+.couple-rank-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 2px;
+}
+
+.rank-challenger .couple-rank-title {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid #ffd700;
+  color: #ffd700;
+}
+.rank-master .couple-rank-title {
+  background: rgba(224, 64, 251, 0.15);
+  border: 1px solid #e040fb;
+  color: #e040fb;
+}
+.rank-diamond .couple-rank-title {
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid #00f0ff;
+  color: #00f0ff;
+}
+.rank-emerald .couple-rank-title {
+  background: rgba(0, 255, 136, 0.15);
+  border: 1px solid #00ff88;
+  color: #00ff88;
+}
+.rank-gold .couple-rank-title {
+  background: rgba(255, 193, 7, 0.15);
+  border: 1px solid #ffc107;
+  color: #ffc107;
+}
+.rank-iron .couple-rank-title {
+  background: rgba(141, 110, 99, 0.2);
+  border: 1px dashed #bcaaa4;
+  color: #d7ccc8;
+}
+
+.couple-rank-sub {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: #b388ff;
+  margin-top: 2px;
+}
+
+/* In Rolling Tape: Crest Overlay */
+.card-crest-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 110px;
+  pointer-events: none;
+  z-index: 3;
+  object-fit: contain;
+}
+
+.card-avatar-wrapper {
+  width: 108px;
+  height: 108px;
+  border-radius: var(--radius-md);
+  margin-top: 6px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible !important;
+}
+
+.card-avatar-img {
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  position: relative;
+  z-index: 1;
+  background: #000;
 }
 
 .couple-avatar-img {
@@ -791,6 +1075,48 @@ body.gacha-body {
   color: #ffffff;
   text-align: center;
   word-break: break-word;
+}
+
+/* Tag in Member Grid */
+.member-rank-tag {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  white-space: nowrap;
+}
+.member-rank-tag.rank-challenger {
+  border-color: #ffd700;
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.15);
+}
+.member-rank-tag.rank-master {
+  border-color: #e040fb;
+  color: #e040fb;
+  background: rgba(224, 64, 251, 0.15);
+}
+.member-rank-tag.rank-diamond {
+  border-color: #00f0ff;
+  color: #00f0ff;
+  background: rgba(0, 240, 255, 0.15);
+}
+.member-rank-tag.rank-emerald {
+  border-color: #00ff88;
+  color: #00ff88;
+  background: rgba(0, 255, 136, 0.15);
+}
+.member-rank-tag.rank-gold {
+  border-color: #ffc107;
+  color: #ffc107;
+  background: rgba(255, 193, 7, 0.15);
+}
+.member-rank-tag.rank-iron {
+  border-color: #8d6e63;
+  color: #bcaaa4;
+  background: rgba(141, 110, 99, 0.2);
 }
 
 /* Center Heart Connector */
