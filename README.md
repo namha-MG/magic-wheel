@@ -1,51 +1,53 @@
-# 🎡 Random Wheel - Vòng Quay May Mắn (Wheel of Names)
+# 💘 CS:GO Romantic Couple Gacha - Vòng Quay Ghép Đôi Nam Nữ
 
-Dự án vòng quay ngẫu nhiên trực tuyến với giao diện hiện đại mô phỏng chuẩn Wheel of Names, hỗ trợ cơ chế cài cắm tỉ lệ trúng theo yêu cầu (mặc định **99% trúng Nguyễn Trọng Linh**) hoàn toàn tự nhiên và kín đáo.
+Hệ thống quay Gacha ghép đôi Nam - Nữ song song lấy cảm hứng từ cơ chế mở hòm (Case Opening) kinh điển của **CS:GO / CS2**, kết hợp hiệu ứng tình cảm lãng mạn lung linh khi ghép đôi thành công.
 
-Ứng dụng chạy hoàn toàn phía client (Static Web App), sẵn sàng để deploy miễn phí lên **GitHub Pages**.
-
----
-
-## 🚀 Tính Năng Chính
-
-1. **Giao diện & Trải nghiệm thực tế**:
-   - Giao diện Dark theme mô phỏng chuẩn Wheel of Names.
-   - Font chữ chuẩn tiếng Việt **Be Vietnam Pro** & **Montserrat** cực kỳ sắc nét, cân đối.
-   - Hiệu ứng âm thanh gõ từng nan quạt (ratchet click) & nhạc ăn mừng (fanfare) qua Web Audio API.
-   - Pháo hoa giấy (confetti) rực rỡ khi người chiến thắng xuất hiện.
-   - Phím tắt: `Ctrl + Enter` để quay nhanh.
-   - Đầy đủ tính năng quản lý danh sách Entries (Shuffle, Sort) & Tab Results xem lịch sử.
-
-2. **Cơ chế cài cắm tỉ lệ 99% (Secret Rigging)**:
-   - Các nan quạt trên vòng quay chia đều 100% về kích thước thị giác.
-   - Thuật toán giảm tốc mượt mà và góc dừng lệch ngẫu nhiên trong lòng ô trúng để người xem không nhận ra.
-   - **Menu bí mật**: Bấm phím tắt **`Ctrl + Shift + L`** hoặc nhấp 3 lần vào dòng chữ **`Version 437`** ở góc dưới bên phải để mở menu cấu hình trực tiếp (chỉnh tên người trúng, kéo thanh tỉ lệ % hoặc ép trúng 100% lượt quay tới).
+Dự án hỗ trợ cơ chế cài cắm tỉ lệ trúng theo yêu cầu (mặc định **99% bạn Nam trúng Nguyễn Trọng Linh**) mà giao diện hoàn toàn tự nhiên và kín đáo.
 
 ---
 
-## 🔗 Cấu Hình Qua Đường Dẫn URL (Rất Tiện Trên GitHub Pages)
+## ✨ Điểm Nổi Bật
 
-Bạn có thể truyền trực tiếp thông số vào URL khi mở web hoặc chia sẻ:
+1. **Cơ Chế Gacha CS:GO Song Song (Dual Roller Tracks)**:
+   - Hai dải băng chuyền cuộn ngang song song:
+     - ♂ **Đàng Trai (Bạn Nam)**: Tông màu Neon Cyan / Blue mạnh mẽ.
+     - ♀ **Đàng Gái (Bạn Nữ)**: Tông màu Neon Pink / Magenta ngọt ngào.
+   - Kim vàng chỉ vạch trung tâm (Center Pointer Needle) chuẩn CS:GO.
+   - Thuật toán giảm tốc vật lý (Quartic ease-out) với âm thanh tiếng gõ cơ học (ratchet click) chậm dần và dừng lại chuẩn xác dưới kim.
 
-- **Chỉ định người trúng**: `?target=Nguyễn+Trọng+Linh`
-- **Chỉnh tỉ lệ trúng**: `?rate=99` (từ 1 đến 100%)
-- **Bật/Tắt cài cắm**: `?rig=true` hoặc `?rig=false`
+2. **Quản Lý Tên & Ảnh Thành Viên**:
+   - Nút **"Quản Lý Thành Viên"** ở góc trên bên phải.
+   - Thêm bạn Nam hoặc bạn Nữ dễ dàng:
+     - Nhập tên hiển thị.
+     - **Tải ảnh đại diện trực tiếp từ máy tính** (File Upload) hoặc dán link ảnh URL.
+     - Hỗ trợ bộ biểu tượng / avatar hoạt hình vector sắc nét tạo sẵn.
+     - Xóa / chỉnh sửa danh sách trực tiếp, tự động lưu vào `localStorage`.
 
-**Ví dụ URL hoàn chỉnh:**
-```
-https://namha-mg.github.io/magic-wheel/?target=Nguyễn+Trọng+Linh&rate=99
-```
+3. **Cơ Chế Cài Cắm 99% Trúng "Nguyễn Trọng Linh"**:
+   - Dù danh sách có 10, 50 hay 100 bạn nam, dải quay CS:GO vẫn cuộn hàng chục thẻ mượt mà và **99% dừng lại ở Nguyễn Trọng Linh**.
+   - **Menu bí mật (Secret Rig)**: Bấm tổ hợp phím **`Ctrl + Shift + L`** hoặc nhấp **3 lần** vào dòng chữ **`CS:GO v2.4`** ở góc dưới bên phải:
+     - Chỉnh tên bạn Nam được chọn.
+     - Chỉnh tỉ lệ trúng (% từ 1 đến 100).
+     - Chỉ định luôn bạn Nữ muốn ghép cặp cùng (nếu muốn).
+     - Nút "Ép trúng 100% ở lượt tới".
+
+4. **Hiệu Ứng Lung Linh Tình Cảm (Romantic Climax)**:
+   - Cơn mưa trái tim màu hồng, đỏ và bụi sao vàng kim bay lượn từ giữa màn hình.
+   - Chuông nhạc tình yêu ngân vang (romantic harp / chime chords).
+   - Bảng vàng uyên ương với 2 ảnh đại diện lồng khung hào quang neon tiến vào giữa, trái tim đập thình thịch (heartbeat pulsing) cùng **chỉ số hợp đôi 99.9%** và lời chúc ngọt ngào.
 
 ---
 
-## 🌐 Hướng Dẫn Bật GitHub Pages Trên Repository
+## 🌐 Triển Khai Miễn Phí Với GitHub Pages
 
-Khi đã push code lên GitHub `https://github.com/namha-MG/magic-wheel.git`:
+Ứng dụng chạy hoàn toàn phía Client (Static Web App).
 
-1. Vào repository trên GitHub: `https://github.com/namha-MG/magic-wheel`
-2. Chọn **Settings** -> mục **Pages** (ở menu bên trái).
-3. Tại phần **Build and deployment**:
-   - **Source**: Chọn **GitHub Actions** (Workflow tự động `.github/workflows/deploy.yml` đã được cấu hình sẵn).
-   - *(Hoặc nếu chọn Deploy from a branch: Chọn Branch `main` / `root` -> Bấm Save)*.
-4. Chờ khoảng 1 phút, trang web của bạn sẽ được kích hoạt tại:
-   `https://namha-mg.github.io/magic-wheel/`
+1. Đẩy code lên GitHub repository: `https://github.com/namha-MG/magic-wheel.git`
+2. Vào **Settings** -> **Pages** -> Tại mục **Build and deployment**, chọn **GitHub Actions** (đã có sẵn file workflow tự động `.github/workflows/deploy.yml`).
+3. Website sẽ hoạt động trực tiếp tại:
+   👉 **`https://namha-mg.github.io/magic-wheel/`**
+
+### Cấu hình nhanh qua URL (URL Query Params):
+- `?target=Nguyễn+Trọng+Linh`: Chỉ định tên bạn Nam.
+- `?rate=99`: Đặt tỉ lệ trúng (%).
+- `?rig=true`: Bật cài cắm bí mật.

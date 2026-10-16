@@ -3,270 +3,306 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vòng Quay May Mắn - Random Wheel</title>
-  <meta name="description" content="Vòng quay ngẫu nhiên trực tuyến chuyên nghiệp, giao diện hiện đại, mượt mà và sinh động.">
+  <title>Vòng Quay Ghép Đôi Gacha - CS:GO Style Couple Match</title>
+  <meta name="description" content="Quay gacha mở hòm ghép đôi phong cách CS:GO siêu mượt mà, kịch tính và lung linh lãng mạn.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Montserrat:wght@600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="dark-theme">
-  <!-- Top Navigation Bar -->
-  <header class="navbar" id="mainNavbar">
+<body class="dark-theme gacha-body">
+  <!-- Top Bar -->
+  <header class="navbar">
     <div class="nav-left">
-      <button class="nav-btn" id="btnCustomize" title="Tùy chỉnh vòng quay">
-        <span class="icon">🎨</span>
-        <span class="btn-text">Customize</span>
-      </button>
-      <button class="nav-btn" id="btnNew" title="Tạo mới">
-        <span class="icon">📄</span>
-        <span class="btn-text">New</span>
-      </button>
-      <button class="nav-btn" id="btnOpen" title="Mở danh sách">
-        <span class="icon">📁</span>
-        <span class="btn-text">Open</span>
-      </button>
-      <button class="nav-btn" id="btnSave" title="Lưu danh sách">
-        <span class="icon">💾</span>
-        <span class="btn-text">Save</span>
-      </button>
-      <button class="nav-btn" id="btnShare" title="Chia sẻ">
-        <span class="icon">🔗</span>
-        <span class="btn-text">Share</span>
-      </button>
+      <div class="brand-logo">
+        <span class="brand-icon">💘</span>
+        <span class="brand-text">LOVEMATCH <span>GACHA</span></span>
+      </div>
+      <div class="nav-badges">
+        <span class="mode-badge">CS:GO CASE OPENING EDITION</span>
+      </div>
     </div>
 
     <div class="nav-right">
-      <button class="nav-btn" id="btnGallery" title="Bộ sưu tập">
-        <span class="icon">🔍</span>
-        <span class="btn-text">Gallery</span>
+      <button class="nav-btn" id="btnManagePeople" title="Danh sách Nam & Nữ">
+        <span class="icon">👥</span>
+        <span class="btn-text">Quản Lý Thành Viên</span>
+      </button>
+      <button class="nav-btn" id="btnSoundToggle" title="Bật/Tắt âm thanh">
+        <span class="icon" id="soundIcon">🔊</span>
       </button>
       <button class="nav-btn" id="btnFullscreen" title="Toàn màn hình">
         <span class="icon">⛶</span>
       </button>
-      <div class="dropdown-wrapper">
-        <button class="nav-btn" id="btnMore" title="Thêm">
-          <span class="btn-text">More</span>
-          <span class="arrow">▾</span>
-        </button>
-        <div class="dropdown-menu" id="moreDropdown">
-          <a href="#" id="menuSoundToggle">🔊 Bật/Tắt âm thanh</a>
-          <a href="#" id="menuThemeToggle">🌓 Đổi giao diện</a>
-          <a href="#" id="menuReset">🔄 Đặt lại mặc định</a>
-        </div>
-      </div>
-      <div class="dropdown-wrapper">
-        <button class="nav-btn lang-btn" id="btnLang" title="Ngôn ngữ">
-          <span class="icon">🌐</span>
-          <span class="btn-text" id="currentLangLabel">Tiếng Việt</span>
-        </button>
-      </div>
+      <button class="nav-btn" id="btnResetDefault" title="Đặt lại dữ liệu mẫu">
+        <span class="icon">🔄</span>
+        <span class="btn-text">Dữ Liệu Mẫu</span>
+      </button>
     </div>
   </header>
 
-  <!-- Main Content Layout -->
-  <main class="app-container">
-    <!-- Left Section: Wheel Area -->
-    <section class="wheel-section" id="wheelSection">
-      <div class="wheel-stage" id="wheelStage">
-        <!-- Canvas for the Wheel -->
-        <canvas id="wheelCanvas"></canvas>
+  <!-- Main Gacha Arena -->
+  <main class="gacha-arena">
+    <!-- Header Subtitle / Status -->
+    <div class="arena-header">
+      <h1 class="arena-title">VÒNG QUAY DUYÊN PHẬN</h1>
+      <p class="arena-desc">Quay song song hai dải Gacha CS:GO để tìm cặp đôi định mệnh hoàn hảo</p>
+    </div>
 
-        <!-- Pointer / Flapper at 3 o'clock position (Right edge pointing to center) -->
-        <div class="wheel-pointer-container" id="pointerContainer">
-          <div class="wheel-pointer" id="wheelPointer"></div>
+    <!-- The 2 Parallel CS:GO Rolling Tracks -->
+    <div class="dual-gacha-container">
+      
+      <!-- Track 1: Nam (Đàng Trai) -->
+      <div class="gacha-track-wrapper track-male" id="trackMaleWrapper">
+        <div class="track-header">
+          <div class="track-badge male-badge">
+            <span class="track-symbol">♂</span>
+            <span class="track-title">NHÀ TRAI (BẠN NAM)</span>
+          </div>
+          <div class="track-count">
+            <span id="maleCountBadge">0</span> ứng viên
+          </div>
         </div>
 
-        <!-- Center Overlay CTA ("Click to spin" / "or press ctrl+enter") -->
-        <div class="center-cta" id="centerCta">
-          <div class="cta-inner">
-            <span class="cta-main">Click to spin</span>
-            <span class="cta-sub">or press ctrl+enter</span>
+        <div class="gacha-viewport" id="viewportMale">
+          <!-- Center Selector Needle (CS:GO gold/blue indicator) -->
+          <div class="gacha-needle-container">
+            <div class="needle-top"></div>
+            <div class="needle-line"></div>
+            <div class="needle-bottom"></div>
           </div>
+          
+          <!-- Moving Tape of Cards -->
+          <div class="gacha-strip" id="stripMale"></div>
         </div>
       </div>
-    </section>
 
-    <!-- Right Section: Sidebar (Entries & Results) -->
-    <aside class="sidebar-section" id="sidebarSection">
-      <!-- Collapse Toggle Button -->
-      <button class="collapse-toggle-btn" id="btnCollapseToggle" title="Thu gọn / Mở rộng">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
-
-      <div class="sidebar-card">
-        <!-- Tabs Header -->
-        <div class="sidebar-tabs">
-          <button class="tab-btn active" id="tabEntries" data-tab="entries">
-            <span>Entries</span>
-            <span class="badge" id="entriesCountBadge">0</span>
-          </button>
-          <button class="tab-btn" id="tabResults" data-tab="results">
-            <span>Results</span>
-            <span class="badge" id="resultsCountBadge">0</span>
+      <!-- Center Spin Button & VS Badge -->
+      <div class="gacha-action-hub">
+        <div class="hub-connector-left"></div>
+        <div class="spin-cta-container">
+          <button class="csgo-spin-btn" id="btnSpin">
+            <span class="spin-btn-glow"></span>
+            <span class="spin-icon">🎲</span>
+            <span class="spin-text">QUAY GACHA GHÉP CẶP</span>
+            <span class="spin-sub">HOẶC NHẤN SPACE / CTRL+ENTER</span>
           </button>
         </div>
-
-        <!-- Tab 1: Entries Content -->
-        <div class="tab-content active" id="tabContentEntries">
-          <!-- Toolbar -->
-          <div class="entries-toolbar">
-            <div class="btn-group">
-              <button class="tool-btn" id="btnShuffle" title="Xáo trộn danh sách">
-                <span class="icon">🔀</span>
-                <span>Shuffle</span>
-              </button>
-              <button class="tool-btn" id="btnSort" title="Sắp xếp theo bảng chữ cái">
-                <span class="icon">⇅</span>
-                <span>Sort</span>
-              </button>
-            </div>
-            <div class="toolbar-right">
-              <button class="tool-btn secondary-btn" id="btnAddImage" title="Thêm hình ảnh">
-                <span class="icon">🖼️</span>
-                <span>Add image</span>
-                <span class="arrow">▾</span>
-              </button>
-              <label class="checkbox-label" title="Tùy chọn nâng cao">
-                <input type="checkbox" id="chkAdvanced">
-                <span>Advanced</span>
-              </label>
-            </div>
-          </div>
-
-          <!-- Entries Textarea -->
-          <div class="textarea-wrapper">
-            <textarea id="entriesTextarea" spellcheck="false" placeholder="Nhập tên tại đây, mỗi tên một dòng..."></textarea>
-          </div>
-
-          <!-- Bottom Action -->
-          <div class="sidebar-bottom-actions">
-            <button class="add-wheel-btn" id="btnAddWheel">
-              <span class="icon">+</span>
-              <span>Add wheel</span>
-              <span class="arrow">▾</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Tab 2: Results Content -->
-        <div class="tab-content" id="tabContentResults">
-          <div class="results-toolbar">
-            <span class="results-summary" id="resultsSummaryText">Chưa có kết quả quay</span>
-            <button class="tool-btn secondary-btn" id="btnClearResults" title="Xóa lịch sử">
-              <span>Xóa tất cả</span>
-            </button>
-          </div>
-          <div class="results-list" id="resultsListContainer">
-            <!-- Results item will be inserted here -->
-          </div>
-        </div>
-
-        <!-- Sidebar Footer -->
-        <footer class="sidebar-footer">
-          <div class="version-wrapper" id="versionSecretTrigger" title="Nhấp 3 lần để xem trạng thái tỉ lệ">
-            <span class="version-text">Version 437</span>
-            <span class="new-pill">New!</span>
-          </div>
-          <a href="#" class="changelog-link" id="changelogLink">Changelog</a>
-        </footer>
+        <div class="hub-connector-right"></div>
       </div>
-    </aside>
+
+      <!-- Track 2: Nữ (Đàng Gái) -->
+      <div class="gacha-track-wrapper track-female" id="trackFemaleWrapper">
+        <div class="track-header">
+          <div class="track-badge female-badge">
+            <span class="track-symbol">♀</span>
+            <span class="track-title">NHÀ GÁI (BẠN NỮ)</span>
+          </div>
+          <div class="track-count">
+            <span id="femaleCountBadge">0</span> ứng viên
+          </div>
+        </div>
+
+        <div class="gacha-viewport" id="viewportFemale">
+          <!-- Center Selector Needle (CS:GO gold/pink indicator) -->
+          <div class="gacha-needle-container">
+            <div class="needle-top female-needle"></div>
+            <div class="needle-line female-needle"></div>
+            <div class="needle-bottom female-needle"></div>
+          </div>
+
+          <!-- Moving Tape of Cards -->
+          <div class="gacha-strip" id="stripFemale"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- History Bar -->
+    <div class="gacha-footer-bar">
+      <div class="recent-matches-title">
+        <span>💘 Các cặp đôi vừa ghép:</span>
+      </div>
+      <div class="recent-matches-list" id="recentMatchesList">
+        <span class="no-match-text">Chưa có lượt quay nào. Hãy bấm "QUAY GACHA GHÉP CẶP" ngay!</span>
+      </div>
+      <div class="secret-version-trigger" id="versionSecretTrigger" title="Nhấp 3 lần để mở cấu hình tỉ lệ">
+        <span>CS:GO v2.4</span>
+        <span class="lock-pill">🔒 Rigged</span>
+      </div>
+    </div>
   </main>
 
-  <!-- Winner Modal Dialog -->
-  <div class="modal-backdrop" id="winnerModal" aria-hidden="true">
-    <div class="modal-dialog winner-dialog">
-      <div class="winner-confetti-badge">🎉 CHIẾN THẮNG! 🎉</div>
-      <h2 class="winner-title">We have a winner!</h2>
-      <div class="winner-name-display" id="winnerNameText">Nguyễn Trọng Linh</div>
-      <p class="winner-subtitle" id="winnerSubtitle">Chúc mừng người chiến thắng trong lượt quay này!</p>
-      <div class="modal-actions">
-        <button class="modal-btn secondary" id="btnCloseWinnerModal">Đóng (Close)</button>
-        <button class="modal-btn danger" id="btnRemoveWinnerModal">Xóa tên (Remove)</button>
+  <!-- ROMANTIC COUPLE REVEAL MODAL (Hiệu ứng lung linh tình cảm) -->
+  <div class="modal-backdrop" id="romanticModal" aria-hidden="true">
+    <div class="modal-dialog romantic-dialog">
+      <!-- Romantic Bokeh Sparkles Layer -->
+      <div class="romantic-sparkles-layer" id="romanticSparkles"></div>
+
+      <!-- Love Badge -->
+      <div class="love-badge-header">
+        <span class="heart-pulse">💖</span>
+        <span>KẾT QUẢ ĐỊNH MỆNH</span>
+        <span class="heart-pulse">💖</span>
+      </div>
+
+      <h2 class="romantic-title">GHÉP ĐÔI THÀNH CÔNG!</h2>
+
+      <!-- Couple Showcase Cards -->
+      <div class="couple-stage">
+        <!-- Male Card -->
+        <div class="couple-card card-male">
+          <div class="avatar-ring-outer male-ring">
+            <img id="revealMaleAvatar" class="couple-avatar-img" src="" alt="Nam">
+          </div>
+          <div class="couple-gender-tag male-tag">ĐÀNG TRAI</div>
+          <div class="couple-name" id="revealMaleName">Nguyễn Trọng Linh</div>
+        </div>
+
+        <!-- Center Love Heart Connector -->
+        <div class="couple-heart-connector">
+          <div class="big-heart-beating">
+            <span class="heart-emoji">💘</span>
+            <div class="heart-glow-ring"></div>
+          </div>
+          <div class="match-rate-pill">
+            <span class="match-rate-label">Độ Hợp Đôi</span>
+            <span class="match-rate-percent" id="matchRatePercent">99.9%</span>
+          </div>
+        </div>
+
+        <!-- Female Card -->
+        <div class="couple-card card-female">
+          <div class="avatar-ring-outer female-ring">
+            <img id="revealFemaleAvatar" class="couple-avatar-img" src="" alt="Nữ">
+          </div>
+          <div class="couple-gender-tag female-tag">ĐÀNG GÁI</div>
+          <div class="couple-name" id="revealFemaleName">Nguyễn Thùy Tiên</div>
+        </div>
+      </div>
+
+      <!-- Romantic Quote -->
+      <div class="romantic-quote-box">
+        <p class="quote-text" id="romanticQuote">
+          "Duyên phận ý trời, hai bạn sinh ra là để dành cho nhau!"
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="romantic-actions">
+        <button class="romantic-btn secondary" id="btnCloseRomantic">Đóng</button>
+        <button class="romantic-btn primary" id="btnSpinAgain">Quay Cặp Tiếp Theo 🎲</button>
       </div>
     </div>
   </div>
 
-  <!-- Customize Modal Dialog -->
-  <div class="modal-backdrop" id="customizeModal" aria-hidden="true">
-    <div class="modal-dialog customize-dialog">
+  <!-- MANAGE PEOPLE MODAL (Quản lý tên và ảnh Nam / Nữ) -->
+  <div class="modal-backdrop" id="manageModal" aria-hidden="true">
+    <div class="modal-dialog manage-dialog">
       <div class="dialog-header">
-        <h3>🎨 Tùy chỉnh vòng quay</h3>
-        <button class="close-x-btn" id="btnCloseCustomize">✕</button>
+        <div class="header-tab-group">
+          <button class="dialog-tab-btn active" id="tabManageMale" data-gender="male">
+            <span>♂ Đàng Trai (Nam)</span>
+            <span class="tab-badge" id="manageMaleBadge">0</span>
+          </button>
+          <button class="dialog-tab-btn" id="tabManageFemale" data-gender="female">
+            <span>♀ Đàng Gái (Nữ)</span>
+            <span class="tab-badge" id="manageFemaleBadge">0</span>
+          </button>
+        </div>
+        <button class="close-x-btn" id="btnCloseManage">✕</button>
       </div>
-      <div class="dialog-body">
-        <div class="form-group">
-          <label for="spinDuration">Thời gian quay (giây):</label>
-          <div class="range-row">
-            <input type="range" id="spinDuration" min="3" max="20" value="8" step="1">
-            <span class="range-val" id="spinDurationVal">8s</span>
+
+      <div class="dialog-body manage-body">
+        <!-- Add New Person Form -->
+        <div class="add-person-card">
+          <h4>Thêm thành viên mới:</h4>
+          <div class="add-person-grid">
+            <div class="avatar-upload-box" id="avatarUploadArea">
+              <img id="avatarPreviewImg" class="preview-avatar" src="" alt="Avatar">
+              <div class="upload-overlay">
+                <span>📷 Tải ảnh</span>
+              </div>
+              <input type="file" id="avatarFileInput" accept="image/*" style="display:none">
+            </div>
+            
+            <div class="person-inputs">
+              <input type="text" id="inputPersonName" class="manage-input" placeholder="Nhập họ và tên...">
+              <input type="text" id="inputPersonAvatarUrl" class="manage-input" placeholder="Hoặc dán URL ảnh (tùy chọn)...">
+              <div class="avatar-presets-row">
+                <span>Chọn mẫu:</span>
+                <div class="preset-avatar-chips" id="presetAvatarChips"></div>
+              </div>
+            </div>
+            
+            <button class="add-person-submit-btn" id="btnAddPerson">
+              <span>+ Thêm</span>
+            </button>
           </div>
         </div>
-        <div class="form-group">
-          <label>Hiệu ứng âm thanh:</label>
-          <label class="switch-label">
-            <input type="checkbox" id="soundToggle" checked>
-            <span class="switch-slider"></span>
-            <span class="switch-text">Bật âm thanh quay & chúc mừng</span>
-          </label>
-        </div>
-        <div class="form-group">
-          <label>Bảng màu vòng quay:</label>
-          <div class="color-palette-presets" id="colorPalettePresets">
-            <button class="palette-btn active" data-palette="rainbow">Rainbow Classic</button>
-            <button class="palette-btn" data-palette="neon">Neon Glow</button>
-            <button class="palette-btn" data-palette="pastel">Sweet Pastel</button>
-            <button class="palette-btn" data-palette="sunset">Sunset Vibes</button>
+
+        <!-- List of Current Members -->
+        <div class="members-list-wrapper">
+          <div class="members-list-header">
+            <span id="membersListTitle">Danh sách hiện tại:</span>
+            <button class="btn-clear-list" id="btnClearCurrentList">Xóa tất cả</button>
+          </div>
+          <div class="members-grid" id="membersGridContainer">
+            <!-- Injected dynamically -->
           </div>
         </div>
       </div>
+
       <div class="dialog-footer">
-        <button class="modal-btn primary" id="btnSaveCustomize">Lưu thay đổi</button>
+        <button class="modal-btn primary" id="btnSaveManage">Xong & Lưu Thay Đổi</button>
       </div>
     </div>
   </div>
 
-  <!-- Secret Rigging / Cheating Modal (Activated via triple clicking Version or Ctrl+Shift+L) -->
+  <!-- SECRET RIGGING MODAL (Cấu hình cài cắm tỉ lệ 99% cho Nguyễn Trọng Linh) -->
   <div class="modal-backdrop" id="secretModal" aria-hidden="true">
     <div class="modal-dialog secret-dialog">
       <div class="dialog-header">
         <div class="secret-header-title">
           <span class="lock-icon">🔒</span>
-          <h3>Cấu Hình Cài Cắm Tỉ Lệ (Secret Rig)</h3>
+          <h3>Cấu Hình Cài Cắm Tỉ Lệ (Secret Gacha Rig)</h3>
         </div>
         <button class="close-x-btn" id="btnCloseSecret">✕</button>
       </div>
       <div class="dialog-body">
         <div class="secret-alert-box">
-          <div class="alert-icon">💡</div>
+          <div class="alert-icon">🎯</div>
           <div class="alert-text">
-            <strong>Bảo đảm tự nhiên 100%:</strong> Trên vòng quay các ô vẫn được chia đều và quay hoàn toàn mượt mà như bình thường. Người xem không thể nhận biết!
+            <strong>Bí mật tuyệt đối:</strong> Hai dải gacha CS:GO vẫn cuộn hàng chục thẻ mượt mà với âm thanh ticking chân thực. Người xem hoàn toàn không thể nhận biết!
           </div>
         </div>
 
         <div class="form-group">
-          <label for="secretTargetName">Tên mục tiêu trúng thưởng:</label>
-          <input type="text" id="secretTargetName" class="secret-input" value="Nguyễn Trọng Linh">
-          <span class="hint-text">Chỉ cần tên này xuất hiện trong danh sách (kể cả giữa 100 người khác).</span>
+          <label for="secretTargetMale">Tên bạn Nam được chọn:</label>
+          <input type="text" id="secretTargetMale" class="secret-input" value="Nguyễn Trọng Linh">
+          <span class="hint-text">Chỉ cần tên này có trong danh sách Đàng Trai.</span>
         </div>
 
         <div class="form-group">
-          <label for="secretProbability">Tỉ lệ trúng thưởng (%):</label>
+          <label for="secretProbability">Tỉ lệ trúng cho bạn Nam (%):</label>
           <div class="range-row">
             <input type="range" id="secretProbability" min="1" max="100" value="99" step="1">
             <span class="range-val highlight-val" id="secretProbabilityVal">99%</span>
           </div>
-          <span class="hint-text">Hiện tại đặt mặc định 99% theo yêu cầu của bạn!</span>
+          <span class="hint-text">Mặc định: 99% theo yêu cầu của bạn!</span>
+        </div>
+
+        <div class="form-group">
+          <label for="secretTargetFemale">Tên bạn Nữ ghép đôi chỉ định (tùy chọn):</label>
+          <input type="text" id="secretTargetFemale" class="secret-input" placeholder="Để trống nếu muốn ngẫu nhiên bạn nữ">
+          <span class="hint-text">Nếu điền, bạn nữ này cũng sẽ được ghép cặp trúng 100%!</span>
         </div>
 
         <div class="form-group">
           <label class="switch-label">
             <input type="checkbox" id="secretActiveToggle" checked>
             <span class="switch-slider"></span>
-            <span class="switch-text"><strong>Kích hoạt tỉ lệ đặc biệt (Rigged Mode)</strong></span>
+            <span class="switch-text"><strong>Kích hoạt chế độ cài cắm tỉ lệ (Rigged Mode)</strong></span>
           </label>
         </div>
 
@@ -277,18 +313,18 @@
         </div>
       </div>
       <div class="dialog-footer">
-        <button class="modal-btn primary" id="btnSaveSecret">Áp dụng</button>
+        <button class="modal-btn primary" id="btnSaveSecret">Áp dụng cấu hình</button>
       </div>
     </div>
   </div>
 
-  <!-- Fullscreen Particle Confetti Canvas -->
-  <canvas id="confettiCanvas"></canvas>
+  <!-- Fullscreen Canvas for Falling Romantic Hearts & Confetti -->
+  <canvas id="romanticCanvas"></canvas>
 
   <!-- Scripts -->
   <script src="audio.js"></script>
-  <script src="confetti.js"></script>
-  <script src="wheel.js"></script>
+  <script src="particles.js"></script>
+  <script src="gacha.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
