@@ -1,0 +1,51 @@
+services:
+  random-wheel:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: random-wheel:latest
+    container_name: random-wheel-app
+    restart: always
+    ports:
+      - "8080:80" # Đổi cổng bên ngoài nếu cần, ví dụ 80:80 hoặc 5173:80
+    environment:
+      # =========================================================================
+      # CẤU HÌNH TỈ LỆ VÀ NGƯỜI ĐƯỢC CHỌN (RANCHER ENVIRONMENT VARIABLES)
+      # =========================================================================
+      
+      # Tên người được chọn trúng thưởng
+      - TARGET_NAME=Nguyễn Trọng Linh
+      
+      # Tỉ lệ trúng thưởng (%): Từ 1 đến 100 (mặc định 99%)
+      - TARGET_PROBABILITY=99
+      
+      # Kích hoạt chế độ cài cắm tỉ lệ: true (bật) / false (tắt, quay ngẫu nhiên bình thường)
+      - RIG_ACTIVE=true
+      
+      # Cổng chạy bên trong container
+      - PORT=80
+
+      # (Tùy chọn) Danh sách tên mặc định ban đầu trên vòng quay, phân cách bằng dấu chấm phẩy (;)
+      # Nếu để trống, hệ thống sẽ sử dụng danh sách 20 tên mặc định có sẵn.
+      - DEFAULT_ENTRIES=Nguyễn Trọng Linh;Trần Thị Mai;Lê Hoàng Nam;Phạm Minh Tuấn;Nguyễn Trọng Linh;Đỗ Thu Hà;Vũ Đức Thắng;Bùi Lan Anh;Hoàng Quốc Bảo;Nguyễn Trọng Linh;Đặng Thanh Tùng;Phan Cẩm Tú;Ngô Gia Huy;Dương Thùy Linh;Nguyễn Trọng Linh;Võ Thành Đạt;Trương Mỹ Duyên;Hồ Hải Đăng;Nguyễn Trọng Linh;Lý Quang Sáng
+
+    labels:
+      # Rancher & Traefik / Ingress labels (nếu dùng reverse proxy trong Rancher)
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:container_label_soft: "io.rancher.stack_service.name=random-wheel"
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:80/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vòng Quay May Mắn - Random Wheel</title>
+  <meta name="description" content="Vòng quay ngẫu nhiên trực tuyến chuyên nghiệp, giao diện hiện đại, mượt mà và sinh động.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <!-- Top Navigation Bar -->
+  <header class="navbar" id="mainNavbar">
+    <div class="nav-left">
+      <button class="nav-btn" id="btnCustomize" title="Tùy chỉnh vòng quay">
+        <span class="icon">🎨</span>
+        <span class="btn-text">Customize</span>
+      </button>
+      <button class="nav-btn" id="btnNew" title="Tạo mới">
+        <span class="icon">📄</span>
+        <span class="btn-text">New</span>
+      </button>
+      <button class="nav-btn" id="btnOpen" title="Mở danh sách">
+        <span class="icon">📁</span>
+        <span class="btn-text">Open</span>
+      </button>
+      <button class="nav-btn" id="btnSave" title="Lưu danh sách">
+        <span class="icon">💾</span>
+        <span class="btn-text">Save</span>
+      </button>
+      <button class="nav-btn" id="btnShare" title="Chia sẻ">
+        <span class="icon">🔗</span>
+        <span class="btn-text">Share</span>
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <button class="nav-btn" id="btnGallery" title="Bộ sưu tập">
+        <span class="icon">🔍</span>
+        <span class="btn-text">Gallery</span>
+      </button>
+      <button class="nav-btn" id="btnFullscreen" title="Toàn màn hình">
+        <span class="icon">⛶</span>
+      </button>
+      <div class="dropdown-wrapper">
+        <button class="nav-btn" id="btnMore" title="Thêm">
+          <span class="btn-text">More</span>
+          <span class="arrow">▾</span>
+        </button>
+        <div class="dropdown-menu" id="moreDropdown">
+          <a href="#" id="menuSoundToggle">🔊 Bật/Tắt âm thanh</a>
+          <a href="#" id="menuThemeToggle">🌓 Đổi giao diện</a>
+          <a href="#" id="menuReset">🔄 Đặt lại mặc định</a>
+        </div>
+      </div>
+      <div class="dropdown-wrapper">
+        <button class="nav-btn lang-btn" id="btnLang" title="Ngôn ngữ">
+          <span class="icon">🌐</span>
+          <span class="btn-text" id="currentLangLabel">Tiếng Việt</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="app-container">
+    <!-- Left Section: Wheel Area -->
+    <section class="wheel-section" id="wheelSection">
+      <div class="wheel-stage" id="wheelStage">
+        <!-- Canvas for the Wheel -->
+        <canvas id="wheelCanvas"></canvas>
+
+        <!-- Pointer / Flapper at 3 o'clock position (Right edge pointing to center) -->
+        <div class="wheel-pointer-container" id="pointerContainer">
+          <div class="wheel-pointer" id="wheelPointer"></div>
+        </div>
+
+        <!-- Center Overlay CTA ("Click to spin" / "or press ctrl+enter") -->
+        <div class="center-cta" id="centerCta">
+          <div class="cta-inner">
+            <span class="cta-main">Click to spin</span>
+            <span class="cta-sub">or press ctrl+enter</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Section: Sidebar (Entries & Results) -->
+    <aside class="sidebar-section" id="sidebarSection">
+      <!-- Collapse Toggle Button -->
+      <button class="collapse-toggle-btn" id="btnCollapseToggle" title="Thu gọn / Mở rộng">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="sidebar-card">
+        <!-- Tabs Header -->
+        <div class="sidebar-tabs">
+          <button class="tab-btn active" id="tabEntries" data-tab="entries">
+            <span>Entries</span>
+            <span class="badge" id="entriesCountBadge">0</span>
+          </button>
+          <button class="tab-btn" id="tabResults" data-tab="results">
+            <span>Results</span>
+            <span class="badge" id="resultsCountBadge">0</span>
+          </button>
+        </div>
+
+        <!-- Tab 1: Entries Content -->
+        <div class="tab-content active" id="tabContentEntries">
+          <!-- Toolbar -->
+          <div class="entries-toolbar">
+            <div class="btn-group">
+              <button class="tool-btn" id="btnShuffle" title="Xáo trộn danh sách">
+                <span class="icon">🔀</span>
+                <span>Shuffle</span>
+              </button>
+              <button class="tool-btn" id="btnSort" title="Sắp xếp theo bảng chữ cái">
+                <span class="icon">⇅</span>
+                <span>Sort</span>
+              </button>
+            </div>
+            <div class="toolbar-right">
+              <button class="tool-btn secondary-btn" id="btnAddImage" title="Thêm hình ảnh">
+                <span class="icon">🖼️</span>
+                <span>Add image</span>
+                <span class="arrow">▾</span>
+              </button>
+              <label class="checkbox-label" title="Tùy chọn nâng cao">
+                <input type="checkbox" id="chkAdvanced">
+                <span>Advanced</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Entries Textarea -->
+          <div class="textarea-wrapper">
+            <textarea id="entriesTextarea" spellcheck="false" placeholder="Nhập tên tại đây, mỗi tên một dòng..."></textarea>
+          </div>
+
+          <!-- Bottom Action -->
+          <div class="sidebar-bottom-actions">
+            <button class="add-wheel-btn" id="btnAddWheel">
+              <span class="icon">+</span>
+              <span>Add wheel</span>
+              <span class="arrow">▾</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab 2: Results Content -->
+        <div class="tab-content" id="tabContentResults">
+          <div class="results-toolbar">
+            <span class="results-summary" id="resultsSummaryText">Chưa có kết quả quay</span>
+            <button class="tool-btn secondary-btn" id="btnClearResults" title="Xóa lịch sử">
+              <span>Xóa tất cả</span>
+            </button>
+          </div>
+          <div class="results-list" id="resultsListContainer">
+            <!-- Results item will be inserted here -->
+          </div>
+        </div>
+
+        <!-- Sidebar Footer -->
+        <footer class="sidebar-footer">
+          <div class="version-wrapper" id="versionSecretTrigger" title="Nhấp 3 lần để xem trạng thái tỉ lệ">
+            <span class="version-text">Version 437</span>
+            <span class="new-pill">New!</span>
+          </div>
+          <a href="#" class="changelog-link" id="changelogLink">Changelog</a>
+        </footer>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Winner Modal Dialog -->
+  <div class="modal-backdrop" id="winnerModal" aria-hidden="true">
+    <div class="modal-dialog winner-dialog">
+      <div class="winner-confetti-badge">🎉 CHIẾN THẮNG! 🎉</div>
+      <h2 class="winner-title">We have a winner!</h2>
+      <div class="winner-name-display" id="winnerNameText">Nguyễn Trọng Linh</div>
+      <p class="winner-subtitle" id="winnerSubtitle">Chúc mừng người chiến thắng trong lượt quay này!</p>
+      <div class="modal-actions">
+        <button class="modal-btn secondary" id="btnCloseWinnerModal">Đóng (Close)</button>
+        <button class="modal-btn danger" id="btnRemoveWinnerModal">Xóa tên (Remove)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customize Modal Dialog -->
+  <div class="modal-backdrop" id="customizeModal" aria-hidden="true">
+    <div class="modal-dialog customize-dialog">
+      <div class="dialog-header">
+        <h3>🎨 Tùy chỉnh vòng quay</h3>
+        <button class="close-x-btn" id="btnCloseCustomize">✕</button>
+      </div>
+      <div class="dialog-body">
+        <div class="form-group">
+          <label for="spinDuration">Thời gian quay (giây):</label>
+          <div class="range-row">
+            <input type="range" id="spinDuration" min="3" max="20" value="8" step="1">
+            <span class="range-val" id="spinDurationVal">8s</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Hiệu ứng âm thanh:</label>
+          <label class="switch-label">
+            <input type="checkbox" id="soundToggle" checked>
+            <span class="switch-slider"></span>
+            <span class="switch-text">Bật âm thanh quay & chúc mừng</span>
+          </label>
+        </div>
+        <div class="form-group">
+          <label>Bảng màu vòng quay:</label>
+          <div class="color-palette-presets" id="colorPalettePresets">
+            <button class="palette-btn active" data-palette="rainbow">Rainbow Classic</button>
+            <button class="palette-btn" data-palette="neon">Neon Glow</button>
+            <button class="palette-btn" data-palette="pastel">Sweet Pastel</button>
+            <button class="palette-btn" data-palette="sunset">Sunset Vibes</button>
+          </div>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button class="modal-btn primary" id="btnSaveCustomize">Lưu thay đổi</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Secret Rigging / Cheating Modal (Activated via triple clicking Version or Ctrl+Shift+L) -->
+  <div class="modal-backdrop" id="secretModal" aria-hidden="true">
+    <div class="modal-dialog secret-dialog">
+      <div class="dialog-header">
+        <div class="secret-header-title">
+          <span class="lock-icon">🔒</span>
+          <h3>Cấu Hình Cài Cắm Tỉ Lệ (Secret Rig)</h3>
+        </div>
+        <button class="close-x-btn" id="btnCloseSecret">✕</button>
+      </div>
+      <div class="dialog-body">
+        <div class="secret-alert-box">
+          <div class="alert-icon">💡</div>
+          <div class="alert-text">
+            <strong>Bảo đảm tự nhiên 100%:</strong> Trên vòng quay các ô vẫn được chia đều và quay hoàn toàn mượt mà như bình thường. Người xem không thể nhận biết!
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="secretTargetName">Tên mục tiêu trúng thưởng:</label>
+          <input type="text" id="secretTargetName" class="secret-input" value="Nguyễn Trọng Linh">
+          <span class="hint-text">Chỉ cần tên này xuất hiện trong danh sách (kể cả giữa 100 người khác).</span>
+        </div>
+
+        <div class="form-group">
+          <label for="secretProbability">Tỉ lệ trúng thưởng (%):</label>
+          <div class="range-row">
+            <input type="range" id="secretProbability" min="1" max="100" value="99" step="1">
+            <span class="range-val highlight-val" id="secretProbabilityVal">99%</span>
+          </div>
+          <span class="hint-text">Hiện tại đặt mặc định 99% theo yêu cầu của bạn!</span>
+        </div>
+
+        <div class="form-group">
+          <label class="switch-label">
+            <input type="checkbox" id="secretActiveToggle" checked>
+            <span class="switch-slider"></span>
+            <span class="switch-text"><strong>Kích hoạt tỉ lệ đặc biệt (Rigged Mode)</strong></span>
+          </label>
+        </div>
+
+        <div class="form-group">
+          <button class="force-win-btn" id="btnForceWinNext">
+            🎯 Ép trúng "Nguyễn Trọng Linh" ở lượt quay tới (100%)
+          </button>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button class="modal-btn primary" id="btnSaveSecret">Áp dụng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Particle Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Scripts -->
+  <script src="audio.js"></script>
+  <script src="confetti.js"></script>
+  <script src="wheel.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
