@@ -37,28 +37,58 @@ document.addEventListener('DOMContentLoaded', () => {
     return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
   }
 
-  // Initial Sample Candidates
-  const defaultMaleCandidates = [
-    { name: 'Nguyễn Trọng Linh', avatar: generateAvatarSvg('Nguyễn Trọng Linh', '#0072ff', '#00c6ff', '👑') },
-    { name: 'Trần Quang Hải', avatar: generateAvatarSvg('Trần Quang Hải', '#11998e', '#38ef7d', '🎸') },
-    { name: 'Lê Hoàng Nam', avatar: generateAvatarSvg('Lê Hoàng Nam', '#8a2387', '#e94057', '🚀') },
-    { name: 'Vũ Đức Thắng', avatar: generateAvatarSvg('Vũ Đức Thắng', '#2193b0', '#6dd5ed', '⚡') },
-    { name: 'Phạm Minh Tuấn', avatar: generateAvatarSvg('Phạm Minh Tuấn', '#fc4a1a', '#f7b733', '🎯') },
-    { name: 'Đặng Thanh Tùng', avatar: generateAvatarSvg('Đặng Thanh Tùng', '#4568dc', '#b06ab3', '🎧') },
-    { name: 'Hoàng Quốc Bảo', avatar: generateAvatarSvg('Hoàng Quốc Bảo', '#43cea2', '#185a9d', '⚽') },
-    { name: 'Ngô Gia Huy', avatar: generateAvatarSvg('Ngô Gia Huy', '#5f2c82', '#49a09d', '🎮') }
+  // Initial Default Lists provided by User
+  const rawFemaleNames = [
+    'Nguyễn Thị Thúy Hằng', 'Nguyễn Thị Lành', 'Phạm Thị Mơ', 'Nguyễn Thị Hoài Anh 1',
+    'Nguyễn Diệp Anh', 'Đỗ Thị Ngọc Ánh', 'Đặng Thị Thu Trang 1', 'Trịnh Thùy Trang 1',
+    'Phạm Thị Hà Hạnh', 'Nguyễn Thị Sinh 1', 'Nguyễn Minh Hòa', 'Phan Thị Minh Thư',
+    'Nguyễn Thị Minh Phương 2', 'Nguyễn Vân Anh 3', 'Đàm Thị Thu', 'Nguyễn Thị Tươi',
+    'Đỗ Thị Kim Oanh', 'Nguyễn Thị Đào 1'
   ];
 
-  const defaultFemaleCandidates = [
-    { name: 'Nguyễn Thùy Tiên', avatar: generateAvatarSvg('Nguyễn Thùy Tiên', '#f857a6', '#ff5858', '🌸') },
-    { name: 'Trần Khánh Linh', avatar: generateAvatarSvg('Trần Khánh Linh', '#ff758c', '#ff7eb3', '✨') },
-    { name: 'Lê Mai Phương', avatar: generateAvatarSvg('Lê Mai Phương', '#ff9a9e', '#fecfef', '🎀') },
-    { name: 'Đỗ Thu Hà', avatar: generateAvatarSvg('Đỗ Thu Hà', '#fa709a', '#fee140', '🐱') },
-    { name: 'Bùi Lan Anh', avatar: generateAvatarSvg('Bùi Lan Anh', '#a18cd1', '#fbc2eb', '🌷') },
-    { name: 'Phan Cẩm Tú', avatar: generateAvatarSvg('Phan Cẩm Tú', '#f093fb', '#f5576c', '💎') },
-    { name: 'Trương Mỹ Duyên', avatar: generateAvatarSvg('Trương Mỹ Duyên', '#ff0844', '#ffb199', '🌹') },
-    { name: 'Hồ Diệu My', avatar: generateAvatarSvg('Hồ Diệu My', '#b224ef', '#7579ff', '🦋') }
+  const rawMaleNames = [
+    'Nguyễn Mạnh Cường 1', 'Vũ Xuân Hoàn', 'Nguyễn Quang Chiến', 'Phạm Xuân Vinh',
+    'Phạm Quý Long', 'Hà Anh Nam', 'Vũ Phi Long', 'Nguyễn Anh Huy',
+    'Trần Đức Mạnh', 'Phan Trung Hưng 1', 'Nguyễn Đắc Ngàn', 'Cao Trần Thiên',
+    'Nguyễn Thành Luân', 'Trần Hoàng Hải', 'Trần Đức Lương', 'Lương Đức Long 1',
+    'Chu Văn Toàn', 'Bùi Hoàng Thái', 'Trần Quang Nam', 'Nguyễn Trọng Tùng 1',
+    'Nguyễn Đức An', 'Nguyễn Trọng Linh 1', 'Bùi Huy Tú', 'Phạm Hữu Việt Anh',
+    'Nguyễn Anh Tuấn 2', 'Đinh Hữu Đại', 'Trần Trung Hậu', 'Lê Tuấn Anh 1',
+    'Phan Huy Anh', 'Phạm Minh Khánh', 'Hoàng Hà My', 'Đỗ Thanh Hiển',
+    'Phạm Duy Khải', 'Hà Văn Mạnh 1', 'Nguyễn Minh Thông', 'Nguyễn Tuấn Dũng 4',
+    'Trần Tăng Dương', 'Nguyễn Tuấn Anh 3', 'Hoàng Anh Tú 2', 'Kiều Xuân Khánh',
+    'Nguyễn Thanh Bình 1', 'Phạm Tùng Dương', 'Nguyễn Thành Đạt 3', 'Phạm Ngọc Sơn',
+    'Trần Anh Dũng 2', 'Trịnh Quang Huy 2', 'Phạm Tuấn Dũng 1', 'Khổng Thế Học',
+    'Trần Mạnh Quốc'
   ];
+
+  const femaleColorPalettes = [
+    ['#f857a6', '#ff5858'], ['#ff758c', '#ff7eb3'], ['#ff9a9e', '#fecfef'],
+    ['#fa709a', '#fee140'], ['#a18cd1', '#fbc2eb'], ['#f093fb', '#f5576c'],
+    ['#ff0844', '#ffb199'], ['#b224ef', '#7579ff'], ['#ff6a88', '#ff99ac']
+  ];
+  const femaleEmojis = ['🌸', '✨', '🎀', '🐱', '🌷', '💎', '🌹', '🦋', '🍓', '🌺', '💖', '🕊️'];
+
+  const maleColorPalettes = [
+    ['#0072ff', '#00c6ff'], ['#11998e', '#38ef7d'], ['#8a2387', '#e94057'],
+    ['#2193b0', '#6dd5ed'], ['#fc4a1a', '#f7b733'], ['#4568dc', '#b06ab3'],
+    ['#43cea2', '#185a9d'], ['#5f2c82', '#49a09d'], ['#00c6ff', '#0072ff']
+  ];
+  const maleEmojis = ['👑', '🚀', '🎸', '⚡', '🎯', '🎧', '⚽', '🎮', '🏆', '🔥', '🌟', '🌊'];
+
+  const defaultFemaleCandidates = rawFemaleNames.map((name, idx) => {
+    const pal = femaleColorPalettes[idx % femaleColorPalettes.length];
+    const emoji = femaleEmojis[idx % femaleEmojis.length];
+    return { name, avatar: generateAvatarSvg(name, pal[0], pal[1], emoji) };
+  });
+
+  const defaultMaleCandidates = rawMaleNames.map((name, idx) => {
+    const pal = maleColorPalettes[idx % maleColorPalettes.length];
+    const isTarget = name.includes('Nguyễn Trọng Linh');
+    const emoji = isTarget ? '👑' : maleEmojis[idx % maleEmojis.length];
+    const colors = isTarget ? ['#ff9900', '#ffd700'] : pal;
+    return { name, avatar: generateAvatarSvg(name, colors[0], colors[1], emoji) };
+  });
 
   // Romantic Quotes
   const romanticQuotes = [
@@ -157,11 +187,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // State Initialization & Persistence
   // -------------------------------------------------------------
   function loadSavedData() {
-    // Load candidates
+    // Load candidates with version check
+    const isV4 = localStorage.getItem('gacha_candidates_v4') === 'true';
     const savedMale = localStorage.getItem('gacha_male_candidates');
     const savedFemale = localStorage.getItem('gacha_female_candidates');
-    maleList = savedMale ? JSON.parse(savedMale) : [...defaultMaleCandidates];
-    femaleList = savedFemale ? JSON.parse(savedFemale) : [...defaultFemaleCandidates];
+
+    if (isV4 && savedMale && savedFemale) {
+      maleList = JSON.parse(savedMale);
+      femaleList = JSON.parse(savedFemale);
+    } else {
+      maleList = [...defaultMaleCandidates];
+      femaleList = [...defaultFemaleCandidates];
+      localStorage.setItem('gacha_male_candidates', JSON.stringify(maleList));
+      localStorage.setItem('gacha_female_candidates', JSON.stringify(femaleList));
+      localStorage.setItem('gacha_candidates_v4', 'true');
+    }
 
     // Load rig config
     const savedRigTarget = localStorage.getItem('gacha_rig_target_male');
