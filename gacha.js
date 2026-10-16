@@ -106,12 +106,12 @@ class GachaRollerTrack {
     const rarityStrip = document.createElement('div');
     rarityStrip.className = `card-rarity-strip rank-${rank.id}`;
 
-    // Winner highlight ring container
-    if (isWinner) {
-      const shockwave = document.createElement('div');
-      shockwave.className = 'winner-shockwave-ring';
-      card.appendChild(shockwave);
-    }
+    // Outer rectangular border frame from LOL rank (Viền khung chữ nhật của rank)
+    const borderOverlay = document.createElement('img');
+    borderOverlay.className = 'card-rank-border-frame';
+    borderOverlay.src = rank.borderImg || `avatars/ranks/border_${rank.id}.png`;
+    borderOverlay.alt = 'Viền ' + rank.name;
+    card.appendChild(borderOverlay);
 
     card.appendChild(avatarWrapper);
     card.appendChild(nameEl);

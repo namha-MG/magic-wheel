@@ -495,41 +495,29 @@ body.gacha-body {
 }
 
 .card-avatar-wrapper {
-  width: 108px;
-  height: 108px;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  margin-top: 6px;
+  width: 104px;
+  height: 104px;
   position: relative;
-  background: rgba(0, 0, 0, 0.4);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(255, 255, 255, 0.15);
+  z-index: 3;
+  margin-top: 6px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
   transition: all 0.2s ease;
 }
 
-.card-avatar-wrapper.rank-challenger {
-  border-color: #ffd700;
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.65), 0 0 24px rgba(255, 215, 0, 0.4);
-}
-.card-avatar-wrapper.rank-master {
-  border-color: #e040fb;
-  box-shadow: 0 0 16px rgba(224, 64, 251, 0.65), 0 0 24px rgba(124, 77, 255, 0.4);
-}
-.card-avatar-wrapper.rank-diamond {
-  border-color: #00f0ff;
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.65), 0 0 24px rgba(0, 136, 255, 0.4);
-}
-.card-avatar-wrapper.rank-emerald {
-  border-color: #00ff88;
-  box-shadow: 0 0 16px rgba(0, 255, 136, 0.65), 0 0 24px rgba(0, 200, 83, 0.4);
-}
-.card-avatar-wrapper.rank-gold {
-  border-color: #ffc107;
-  box-shadow: 0 0 16px rgba(255, 193, 7, 0.65), 0 0 24px rgba(255, 152, 0, 0.4);
-}
+.card-avatar-wrapper.rank-challenger,
+.card-avatar-wrapper.rank-master,
+.card-avatar-wrapper.rank-diamond,
+.card-avatar-wrapper.rank-emerald,
+.card-avatar-wrapper.rank-gold,
 .card-avatar-wrapper.rank-iron {
-  border: 2px dashed #8d6e63;
-  box-shadow: 0 0 12px rgba(141, 110, 99, 0.65);
+  border: none;
+  box-shadow: none;
 }
 
 /* Mini Rank Badge on Rolling Tape Card */
@@ -639,6 +627,8 @@ body.gacha-body {
   text-overflow: ellipsis;
   max-width: 155px;
   margin-top: 6px;
+  position: relative;
+  z-index: 3;
 }
 
 .card-gender-role {
@@ -647,6 +637,8 @@ body.gacha-body {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  position: relative;
+  z-index: 3;
 }
 
 /* Active Highlight & Dramatic Lock-In on Winner Card under the Needle */
@@ -1134,27 +1126,40 @@ body.gacha-body {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
-/* In Rolling Tape: Crest Overlay */
+/* In Rolling Tape: Card Rank Border Frame (Viền khung chữ nhật của rank) */
+.card-rank-border-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 2;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.7));
+}
+
+/* In Rolling Tape: Clean Crest Overlay (Không còn sừng/biểu tượng dưới thừa) */
 .card-crest-overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 140px;
-  height: 110px;
+  width: 136px;
+  height: 96px;
   pointer-events: none;
-  z-index: 3;
+  z-index: 4;
   object-fit: contain;
 }
 
 .card-avatar-wrapper {
-  width: 108px;
-  height: 108px;
-  border-radius: var(--radius-md);
-  margin-top: 6px;
+  width: 104px;
+  height: 104px;
+  margin-top: 8px;
   position: relative;
-  background: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  z-index: 3;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
   display: flex;
   align-items: center;
   justify-content: center;
