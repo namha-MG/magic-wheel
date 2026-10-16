@@ -90,14 +90,57 @@ document.addEventListener('DOMContentLoaded', () => {
     return { name, avatar: generateAvatarSvg(name, colors[0], colors[1], emoji) };
   });
 
-  // Romantic Quotes
+  // Romantic Quotes Pool - Mỗi cặp đôi 1 câu chúc độc nhất không lặp lại
   const romanticQuotes = [
-    '"Duyên do trời định, phận do người tạo. Chúc mừng hai bạn đã tìm thấy nhau!"',
-    '"Trời sinh một cặp, trăm năm hòa hợp, duyên thắm tình nồng!"',
-    '"Gặp gỡ là duyên, đồng hành là nợ. Hãy cùng nhau viết nên chuyện tình đẹp nhé!"',
-    '"Chỉ số tương thích đạt đỉnh cao 99.9%! Một kết nối định mệnh hoàn hảo!"',
-    '"Vượt qua hàng ngàn cơ hội gacha, ánh mắt đã dừng lại ở người ấy!"'
+    '“Duyên do trời định, phận do người tạo. Chúc mừng hai bạn đã tìm thấy nhau giữa muôn vạn người! 💖”',
+    '“Trời sinh một cặp, trăm năm hòa hợp, duyên thắm tình nồng, hạnh phúc đong đầy! 🌸”',
+    '“Gặp gỡ là duyên, đồng hành là nợ. Hãy cùng nhau viết nên một câu chuyện tình thật ngọt ngào nhé! ✨”',
+    '“Vượt qua hàng vạn vòng quay số phận, cuối cùng ánh mắt định mệnh cũng dừng lại ở người ấy! 💫”',
+    '“Tình yêu không cần tìm kiếm đâu xa, người ấy đã xuất hiện ngay trước mắt bạn hôm nay! 🌹”',
+    '“Chúc hai bạn sớm chung đôi, ngọt ngào như trà sữa trân châu và bền chặt như kim cương! 🧋”',
+    '“Một người hiểu, một người thương — chúc hai bạn một đời an yên, ngọt ngào và trọn vẹn! 🌷”',
+    '“Từ hôm nay, thế giới bớt đi hai người cô đơn và có thêm một cặp đôi siêu đáng yêu! 👫”',
+    '“Trăng dưới nước là trăng trên trời, người trước mặt là người trong tim. Chúc mừng hai bạn! 🌙”',
+    '“Chúc chàng trai luôn là chỗ dựa vững chãi, cô gái luôn rạng rỡ nụ cười hạnh phúc! 🌟”',
+    '“Gió tầng nào gặp mây tầng đó, người xuất sắc như bạn xứng đáng sánh bước cùng người tuyệt vời này! 👑”',
+    '“Khoảnh khắc hai dải quay dừng lại cũng là lúc nhịp đập hai con tim hòa chung làm một! 💓”',
+    '“Hôm nay định mệnh đã se duyên, chúc hai bạn sớm có buổi hẹn hò đầu tiên thật lãng mạn nhé! ☕”',
+    '“Chúc tình yêu của hai bạn luôn ngập tràn tiếng cười, ngọt ngào từng phút giây và bền bỉ theo năm tháng! 🎀”',
+    '“Người ta nói trăm năm mới chung thuyền, ngàn năm mới chung đôi — chúc mừng mối lương duyên tiền định! ⛵”',
+    '“Một nụ cười bằng mười thang thuốc bổ, ở bên người này bạn sẽ cười tươi suốt cả ngày dài! 🥰”',
+    '“Chúc hai bạn tay trong tay cùng bước qua mọi thăng trầm, viết tiếp những trang kỷ niệm rực rỡ nhất! 📖”',
+    '“Vũ trụ đã gửi tín hiệu rõ ràng rồi đấy, chần chừ gì nữa mà không mời nhau một ly cà phê ấm áp! 💌”',
+    '“Đẹp đôi như chim liền cánh, như cây liền cành. Chúc hai bạn bách niên giai lão! 🕊️”',
+    '“Chúc cho ánh mắt hai bạn nhìn nhau hôm nay sẽ mãi lấp lánh như ngày đầu tiên gặp gỡ! ✨”',
+    '“Duyên phận đã mang hai bạn đến với nhau, tình yêu chân thành sẽ giữ hai bạn bên nhau mãi mãi! 💍”',
+    '“Chúc chàng và nàng tìm thấy ở nhau sự bình yên nhất giữa thế giới ồn ào vội vã! 🌈”',
+    '“Bên ngoài gió bão mặc kệ đời, có nhau ở cạnh là thấy bình yên. Chúc hai bạn luôn hạnh phúc! 🍃”',
+    '“Gặp đúng người vào đúng thời điểm chính là món quà kỳ diệu nhất của cuộc sống! 🎁”',
+    '“Chúc cho những buổi trò chuyện sau hôm nay sẽ kéo dài thâu đêm mà không hề thấy chán! 🌙”',
+    '“Hạnh phúc không phải là đích đến, mà là hành trình được đồng hành cùng người mình thương! 🚲”',
+    '“Cả hội trường đang háo hức chờ đợi tin vui từ cặp đôi trai tài gái sắc này đấy nhé! 🎉”',
+    '“Chúc hai bạn luôn lắng nghe, thấu hiểu và cùng nhau tạo nên những khoảnh khắc đáng nhớ nhất! 🎶”',
+    '“Thế giới có hơn 8 tỷ người, nhưng định mệnh đã chọn hai bạn dành cho nhau ngày hôm nay! 🌍”',
+    '“Chúc cho tình cảm của hai bạn luôn nồng nàn như ngày đầu, ngọt ngào và ấm áp như nắng sớm ban mai! ☀️”',
+    '“Người ta tìm kiếm cả đời một tri kỷ, còn hai bạn chỉ mất một lượt quay gacha định mệnh! 🍀”',
+    '“Chúc hai bạn mãi là ngọn lửa sưởi ấm tâm hồn nhau trong những ngày mùa đông se lạnh! 🔥”',
+    '“Tình cảm chân thành sẽ luôn tìm được bến đỗ bình yên. Chúc mừng cặp đôi hoàn hảo hôm nay! ⚓”',
+    '“Chúc cho hành trình phía trước của hai bạn luôn tràn ngập hoa hồng, niềm vui và sự thấu hiểu! 💐”',
+    '“Duyên trời đã định sẵn, mong hai bạn hãy trân trọng và vun đắp cho hạt mầm tình yêu đơm hoa kết trái! 🌳”',
+    '“Trời cao có mắt, duyên nợ có đôi. Chúc hai bạn mở đầu một chương mới ngập tràn hạnh phúc! 🎊”'
   ];
+
+  // Quản lý kho câu chúc không lặp lại cho mỗi cặp đôi
+  let unusedQuotes = [...romanticQuotes];
+
+  function getUniqueRomanticQuote() {
+    if (unusedQuotes.length === 0) {
+      unusedQuotes = [...romanticQuotes];
+    }
+    const idx = Math.floor(Math.random() * unusedQuotes.length);
+    const chosen = unusedQuotes.splice(idx, 1)[0];
+    return chosen;
+  }
 
   // App State
   let maleList = [];
@@ -142,7 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const revealMaleName = document.getElementById('revealMaleName');
   const revealFemaleAvatar = document.getElementById('revealFemaleAvatar');
   const revealFemaleName = document.getElementById('revealFemaleName');
-  const matchRatePercent = document.getElementById('matchRatePercent');
   const romanticQuote = document.getElementById('romanticQuote');
   const btnCloseRomantic = document.getElementById('btnCloseRomantic');
   const btnSpinAgain = document.getElementById('btnSpinAgain');
@@ -403,12 +445,8 @@ document.addEventListener('DOMContentLoaded', () => {
     revealFemaleAvatar.src = female.avatar;
     revealFemaleName.textContent = female.name;
 
-    // Generate cute match percentage
-    const matchScore = (98.5 + Math.random() * 1.4).toFixed(1);
-    matchRatePercent.textContent = `${matchScore}%`;
-
-    // Random romantic quote
-    romanticQuote.textContent = romanticQuotes[Math.floor(Math.random() * romanticQuotes.length)];
+    // Mỗi cặp 1 câu chúc độc nhất không lặp lại
+    romanticQuote.textContent = getUniqueRomanticQuote();
 
     // Show Romantic Modal
     romanticModal.classList.add('active');
@@ -710,8 +748,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (confirm('Khôi phục lại danh sách thành viên Nam & Nữ mẫu ban đầu?')) {
       maleList = [...defaultMaleCandidates];
       femaleList = [...defaultFemaleCandidates];
+      unusedQuotes = [...romanticQuotes];
       saveCandidates();
-      showToast('Đã khôi phục dữ liệu mẫu thành công!');
+      showToast('Đã khôi phục dữ liệu mẫu và làm mới kho câu chúc!');
     }
   });
 
