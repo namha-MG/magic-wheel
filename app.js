@@ -37,28 +37,28 @@ document.addEventListener('DOMContentLoaded', () => {
     return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
   }
 
-  // Initial Default Lists provided by User
+  // Initial Default Lists provided by User (Số đã được loại bỏ hoàn toàn)
   const rawFemaleNames = [
-    'Nguyễn Thị Thúy Hằng', 'Nguyễn Thị Lành', 'Phạm Thị Mơ', 'Nguyễn Thị Hoài Anh 1',
-    'Nguyễn Diệp Anh', 'Đỗ Thị Ngọc Ánh', 'Đặng Thị Thu Trang 1', 'Trịnh Thùy Trang 1',
-    'Phạm Thị Hà Hạnh', 'Nguyễn Thị Sinh 1', 'Nguyễn Minh Hòa', 'Phan Thị Minh Thư',
-    'Nguyễn Thị Minh Phương 2', 'Nguyễn Vân Anh 3', 'Đàm Thị Thu', 'Nguyễn Thị Tươi',
-    'Đỗ Thị Kim Oanh', 'Nguyễn Thị Đào 1'
+    'Nguyễn Thị Thúy Hằng', 'Nguyễn Thị Lành', 'Phạm Thị Mơ', 'Nguyễn Thị Hoài Anh',
+    'Nguyễn Diệp Anh', 'Đỗ Thị Ngọc Ánh', 'Đặng Thị Thu Trang', 'Trịnh Thùy Trang',
+    'Phạm Thị Hà Hạnh', 'Nguyễn Thị Sinh', 'Nguyễn Minh Hòa', 'Phan Thị Minh Thư',
+    'Nguyễn Thị Minh Phương', 'Nguyễn Vân Anh', 'Đàm Thị Thu', 'Nguyễn Thị Tươi',
+    'Đỗ Thị Kim Oanh', 'Nguyễn Thị Đào'
   ];
 
   const rawMaleNames = [
-    'Nguyễn Mạnh Cường 1', 'Vũ Xuân Hoàn', 'Nguyễn Quang Chiến', 'Phạm Xuân Vinh',
+    'Nguyễn Mạnh Cường', 'Vũ Xuân Hoàn', 'Nguyễn Quang Chiến', 'Phạm Xuân Vinh',
     'Phạm Quý Long', 'Hà Anh Nam', 'Vũ Phi Long', 'Nguyễn Anh Huy',
-    'Trần Đức Mạnh', 'Phan Trung Hưng 1', 'Nguyễn Đắc Ngàn', 'Cao Trần Thiên',
-    'Nguyễn Thành Luân', 'Trần Hoàng Hải', 'Trần Đức Lương', 'Lương Đức Long 1',
-    'Chu Văn Toàn', 'Bùi Hoàng Thái', 'Trần Quang Nam', 'Nguyễn Trọng Tùng 1',
-    'Nguyễn Đức An', 'Nguyễn Trọng Linh 1', 'Bùi Huy Tú', 'Phạm Hữu Việt Anh',
-    'Nguyễn Anh Tuấn 2', 'Đinh Hữu Đại', 'Trần Trung Hậu', 'Lê Tuấn Anh 1',
+    'Trần Đức Mạnh', 'Phan Trung Hưng', 'Nguyễn Đắc Ngàn', 'Cao Trần Thiên',
+    'Nguyễn Thành Luân', 'Trần Hoàng Hải', 'Trần Đức Lương', 'Lương Đức Long',
+    'Chu Văn Toàn', 'Bùi Hoàng Thái', 'Trần Quang Nam', 'Nguyễn Trọng Tùng',
+    'Nguyễn Đức An', 'Nguyễn Trọng Linh', 'Bùi Huy Tú', 'Phạm Hữu Việt Anh',
+    'Nguyễn Anh Tuấn', 'Đinh Hữu Đại', 'Trần Trung Hậu', 'Lê Tuấn Anh',
     'Phan Huy Anh', 'Phạm Minh Khánh', 'Hoàng Hà My', 'Đỗ Thanh Hiển',
-    'Phạm Duy Khải', 'Hà Văn Mạnh 1', 'Nguyễn Minh Thông', 'Nguyễn Tuấn Dũng 4',
-    'Trần Tăng Dương', 'Nguyễn Tuấn Anh 3', 'Hoàng Anh Tú 2', 'Kiều Xuân Khánh',
-    'Nguyễn Thanh Bình 1', 'Phạm Tùng Dương', 'Nguyễn Thành Đạt 3', 'Phạm Ngọc Sơn',
-    'Trần Anh Dũng 2', 'Trịnh Quang Huy 2', 'Phạm Tuấn Dũng 1', 'Khổng Thế Học',
+    'Phạm Duy Khải', 'Hà Văn Mạnh', 'Nguyễn Minh Thông', 'Nguyễn Tuấn Dũng',
+    'Trần Tăng Dương', 'Nguyễn Tuấn Anh', 'Hoàng Anh Tú', 'Kiều Xuân Khánh',
+    'Nguyễn Thanh Bình', 'Phạm Tùng Dương', 'Nguyễn Thành Đạt', 'Phạm Ngọc Sơn',
+    'Trần Anh Dũng', 'Trịnh Quang Huy', 'Phạm Tuấn Dũng', 'Khổng Thế Học',
     'Trần Mạnh Quốc'
   ];
 
@@ -187,20 +187,35 @@ document.addEventListener('DOMContentLoaded', () => {
   // State Initialization & Persistence
   // -------------------------------------------------------------
   function loadSavedData() {
+    // Helper to sanitize any name by removing numbers
+    function sanitizeList(list) {
+      if (!Array.isArray(list)) return [];
+      return list.map(item => {
+        if (!item || !item.name) return item;
+        const cleanName = item.name.replace(/\d+/g, '').replace(/\s+/g, ' ').trim();
+        return { ...item, name: cleanName };
+      });
+    }
+
     // Load candidates with version check
-    const isV4 = localStorage.getItem('gacha_candidates_v4') === 'true';
+    const isV5 = localStorage.getItem('gacha_candidates_v5') === 'true';
     const savedMale = localStorage.getItem('gacha_male_candidates');
     const savedFemale = localStorage.getItem('gacha_female_candidates');
 
-    if (isV4 && savedMale && savedFemale) {
-      maleList = JSON.parse(savedMale);
-      femaleList = JSON.parse(savedFemale);
+    if (isV5 && savedMale && savedFemale) {
+      try {
+        maleList = sanitizeList(JSON.parse(savedMale));
+        femaleList = sanitizeList(JSON.parse(savedFemale));
+      } catch (e) {
+        maleList = [...defaultMaleCandidates];
+        femaleList = [...defaultFemaleCandidates];
+      }
     } else {
       maleList = [...defaultMaleCandidates];
       femaleList = [...defaultFemaleCandidates];
       localStorage.setItem('gacha_male_candidates', JSON.stringify(maleList));
       localStorage.setItem('gacha_female_candidates', JSON.stringify(femaleList));
-      localStorage.setItem('gacha_candidates_v4', 'true');
+      localStorage.setItem('gacha_candidates_v5', 'true');
     }
 
     // Load rig config
@@ -584,7 +599,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Add Person Action
   btnAddPerson.addEventListener('click', () => {
-    const name = inputPersonName.value.trim();
+    const rawName = inputPersonName.value.trim();
+    const name = rawName.replace(/\d+/g, '').replace(/\s+/g, ' ').trim();
     if (!name) {
       alert('Vui lòng nhập họ và tên của thành viên!');
       return;
