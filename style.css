@@ -277,6 +277,29 @@ body.gacha-body {
   border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.85);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dynamic Fast Spin State (Speed Streaks & Laser Warp) */
+.gacha-viewport.is-fast-spinning {
+  border-color: rgba(0, 210, 255, 0.6);
+  box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.95), 0 0 30px rgba(0, 210, 255, 0.3);
+}
+.track-female .gacha-viewport.is-fast-spinning {
+  border-color: rgba(255, 42, 133, 0.6);
+  box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 42, 133, 0.3);
+}
+
+/* Suspense Crawl State (Tense focused vignette) */
+.gacha-viewport.is-creeping-suspense {
+  border-color: rgba(255, 215, 0, 0.45);
+  box-shadow: inset 0 0 55px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 215, 0, 0.25);
+}
+
+/* Winner Locked State */
+.gacha-viewport.has-locked-winner {
+  border-color: #ffd700;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 215, 0, 0.5);
 }
 
 /* CS:GO Vignette shadow on left and right edges */
@@ -286,22 +309,31 @@ body.gacha-body {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 120px;
+  width: 140px;
   z-index: 10;
   pointer-events: none;
+  transition: all 0.3s ease;
 }
 
 .gacha-viewport::before {
   left: 0;
-  background: linear-gradient(to right, rgba(9, 7, 20, 0.95) 0%, rgba(9, 7, 20, 0.6) 50%, transparent 100%);
+  background: linear-gradient(to right, rgba(9, 7, 20, 0.98) 0%, rgba(9, 7, 20, 0.6) 60%, transparent 100%);
 }
 
 .gacha-viewport::after {
   right: 0;
-  background: linear-gradient(to left, rgba(9, 7, 20, 0.95) 0%, rgba(9, 7, 20, 0.6) 50%, transparent 100%);
+  background: linear-gradient(to left, rgba(9, 7, 20, 0.98) 0%, rgba(9, 7, 20, 0.6) 60%, transparent 100%);
 }
 
-/* CS:GO Center Needle (Kim chỉ vạch trung tâm) */
+/* Speed streak horizontal light lines */
+.gacha-viewport.is-fast-spinning::before {
+  background: linear-gradient(to right, rgba(9, 7, 20, 0.98) 0%, rgba(0, 210, 255, 0.18) 60%, transparent 100%);
+}
+.track-female .gacha-viewport.is-fast-spinning::before {
+  background: linear-gradient(to right, rgba(9, 7, 20, 0.98) 0%, rgba(255, 42, 133, 0.18) 60%, transparent 100%);
+}
+
+/* CS:GO Center Needle (Kim chỉ vạch trung tâm với cơ chế nảy vật lý) */
 .gacha-needle-container {
   position: absolute;
   top: 0;
@@ -314,13 +346,37 @@ body.gacha-body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  transform-origin: 50% 0%;
+  transition: filter 0.2s ease;
+}
+
+/* Needle Flick / Kickback Physics */
+.gacha-needle-container.needle-flick-left {
+  animation: needleKickLeft 0.09s cubic-bezier(0.18, 0.89, 0.32, 1.3);
+}
+
+.gacha-needle-container.needle-flick-right {
+  animation: needleKickRight 0.09s cubic-bezier(0.18, 0.89, 0.32, 1.3);
+}
+
+@keyframes needleKickLeft {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  35% { transform: translateX(calc(-50% - 4px)) rotate(-4.8deg); }
+  100% { transform: translateX(-50%) rotate(0deg); }
+}
+
+@keyframes needleKickRight {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  35% { transform: translateX(calc(-50% + 4px)) rotate(4.8deg); }
+  100% { transform: translateX(-50%) rotate(0deg); }
 }
 
 .needle-line {
   flex: 1;
-  width: 2.5px;
+  width: 2.8px;
   background: #ffd700;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.85), 0 0 24px rgba(255, 215, 0, 0.5);
+  transition: all 0.2s ease;
 }
 
 .needle-top, .needle-bottom {
@@ -328,21 +384,22 @@ body.gacha-body {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
+  transition: all 0.2s ease;
 }
 
 .needle-top {
   border-top: 14px solid #ffd700;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
 }
 
 .needle-bottom {
   border-bottom: 14px solid #ffd700;
-  filter: drop-shadow(0 -2px 5px rgba(0, 0, 0, 0.8));
+  filter: drop-shadow(0 -2px 6px rgba(0, 0, 0, 0.9));
 }
 
 .female-needle {
   background: #ff4081;
-  box-shadow: 0 0 10px rgba(255, 64, 129, 0.8), 0 0 20px rgba(255, 64, 129, 0.4);
+  box-shadow: 0 0 12px rgba(255, 64, 129, 0.85), 0 0 24px rgba(255, 64, 129, 0.5);
 }
 
 .needle-top.female-needle {
@@ -351,6 +408,28 @@ body.gacha-body {
 
 .needle-bottom.female-needle {
   border-bottom-color: #ff4081;
+}
+
+/* Intense Locked-in Needle Effect when winning card lands */
+.gacha-needle-container.needle-locked .needle-line {
+  background: #ffffff;
+  box-shadow: 0 0 15px #ffd700, 0 0 35px #ffffff, 0 0 50px #00f0ff;
+  animation: needleLaserPulse 0.35s infinite alternate;
+}
+
+.gacha-needle-container.needle-locked .needle-top {
+  border-top-color: #ffffff;
+  filter: drop-shadow(0 0 12px #ffd700) drop-shadow(0 0 20px #00f0ff);
+}
+
+.gacha-needle-container.needle-locked .needle-bottom {
+  border-bottom-color: #ffffff;
+  filter: drop-shadow(0 0 12px #ffd700) drop-shadow(0 0 20px #00f0ff);
+}
+
+@keyframes needleLaserPulse {
+  0% { transform: scaleX(1); filter: brightness(1); }
+  100% { transform: scaleX(1.8); filter: brightness(1.5); }
 }
 
 /* Moving Strip of Cards */
@@ -543,9 +622,60 @@ body.gacha-body {
   letter-spacing: 0.5px;
 }
 
-/* Active Highlight on Winner Card under the Needle */
-.gacha-card.is-selected {
-  filter: brightness(1.2);
+/* Active Highlight & Dramatic Lock-In on Winner Card under the Needle */
+.gacha-card.is-selected,
+.gacha-card.winner-locked-in {
+  z-index: 15 !important;
+  transform: scale(1.05);
+  box-shadow: 0 0 35px rgba(255, 215, 0, 0.75), 0 0 65px rgba(0, 240, 255, 0.45);
+  transition: transform 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28), box-shadow 0.25s ease;
+  animation: winnerCardAuraPulse 0.55s infinite alternate ease-in-out;
+}
+
+@keyframes winnerCardAuraPulse {
+  0% {
+    filter: brightness(1.2) drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+  }
+  100% {
+    filter: brightness(1.45) drop-shadow(0 0 26px rgba(0, 240, 255, 0.95));
+  }
+}
+
+/* Winner Shockwave Ring Burst */
+.winner-shockwave-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-md);
+  border: 3px solid #ffd700;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 25;
+}
+
+.gacha-card.winner-locked-in .winner-shockwave-ring {
+  animation: winnerShockwaveBurst 0.75s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes winnerShockwaveBurst {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+    border-color: #ffffff;
+    box-shadow: 0 0 25px #ffd700, 0 0 45px #00f0ff;
+  }
+  50% {
+    opacity: 0.85;
+    border-color: #ffd700;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+    box-shadow: 0 0 50px rgba(0, 240, 255, 0);
+  }
 }
 
 /* ==========================================================================
@@ -595,9 +725,32 @@ body.gacha-body {
 }
 
 .csgo-spin-btn:disabled {
-  opacity: 0.6;
-  pointer-events: none;
-  filter: grayscale(0.5);
+  opacity: 0.85;
+  cursor: not-allowed;
+  filter: none;
+}
+
+.csgo-spin-btn.is-spinning {
+  background: linear-gradient(135deg, #7c4dff 0%, #00d2ff 50%, #ff2a85 100%);
+  animation: gradientShift 1.2s linear infinite, spinBtnPulse 0.9s infinite alternate;
+  box-shadow: 0 0 35px rgba(0, 210, 255, 0.65), 0 0 60px rgba(255, 42, 133, 0.45);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes spinBtnPulse {
+  0% { transform: scale(0.99); }
+  100% { transform: scale(1.02); }
+}
+
+.spin-spinning-dice {
+  display: inline-block;
+  animation: spinDiceAnim 0.7s linear infinite;
+}
+
+@keyframes spinDiceAnim {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.25); }
+  100% { transform: rotate(360deg) scale(1); }
 }
 
 .spin-icon {
@@ -944,63 +1097,14 @@ body.gacha-body {
 
 .couple-name {
   font-family: var(--font-heading);
-  font-size: 16.5px;
+  font-size: 18.5px;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 3px;
-  word-break: break-word;
-}
-
-.couple-rank-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-heading);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  padding: 2px 10px;
-  border-radius: var(--radius-full);
+  margin-top: 4px;
   margin-bottom: 2px;
-}
-
-.rank-challenger .couple-rank-title {
-  background: rgba(255, 215, 0, 0.15);
-  border: 1px solid #ffd700;
-  color: #ffd700;
-}
-.rank-master .couple-rank-title {
-  background: rgba(224, 64, 251, 0.15);
-  border: 1px solid #e040fb;
-  color: #e040fb;
-}
-.rank-diamond .couple-rank-title {
-  background: rgba(0, 240, 255, 0.15);
-  border: 1px solid #00f0ff;
-  color: #00f0ff;
-}
-.rank-emerald .couple-rank-title {
-  background: rgba(0, 255, 136, 0.15);
-  border: 1px solid #00ff88;
-  color: #00ff88;
-}
-.rank-gold .couple-rank-title {
-  background: rgba(255, 193, 7, 0.15);
-  border: 1px solid #ffc107;
-  color: #ffc107;
-}
-.rank-iron .couple-rank-title {
-  background: rgba(141, 110, 99, 0.2);
-  border: 1px dashed #bcaaa4;
-  color: #d7ccc8;
-}
-
-.couple-rank-sub {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  color: #b388ff;
-  margin-top: 2px;
+  letter-spacing: 0.3px;
+  word-break: break-word;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
 /* In Rolling Tape: Crest Overlay */

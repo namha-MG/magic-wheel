@@ -1,5 +1,11 @@
 /**
- * gacha.js - CS:GO Style Dual Roller Physics Engine with 99% Rigging
+ * gacha.js - CS:GO / Hextech Style Dual Roller Physics Engine
+ * Features:
+ *  - Reactive needle flick physics with tactile kickback
+ *  - Dynamic velocity-based motion blur & high-speed light streaks
+ *  - High-suspense crawl deceleration curve
+ *  - Center card focus illumination
+ *  - Dramatic Winner Lock-In moment with golden shockwave & jackpot chime
  */
 
 class GachaRollerTrack {
@@ -11,6 +17,8 @@ class GachaRollerTrack {
     this.totalCardsInTape = 65;
     this.winnerIndexInTape = 52; // Winner card placement in the tape
 
+    this.needleContainer = this.viewportEl ? this.viewportEl.querySelector('.gacha-needle-container') : null;
+
     this.candidates = [];
     this.tapeCards = [];
     this.currentX = 0;
@@ -18,9 +26,10 @@ class GachaRollerTrack {
     this.startX = 0;
     this.isRolling = false;
     this.startTime = 0;
-    this.duration = 7200; // ms
+    this.duration = 7400; // ms for perfect suspense rhythm
     this.lastCardTick = -1;
     this.winningCandidate = null;
+    this.winningCardEl = null;
 
     this.onComplete = null;
   }
@@ -38,7 +47,7 @@ class GachaRollerTrack {
     this.stripEl.innerHTML = '';
     this.stripEl.style.transform = 'translateX(0px)';
 
-    // Show 12 cards initially centered
+    // Show 15 cards initially centered
     const previewCards = [];
     for (let i = 0; i < 15; i++) {
       const candidate = this.candidates[i % this.candidates.length];
@@ -95,6 +104,13 @@ class GachaRollerTrack {
     const rarityStrip = document.createElement('div');
     rarityStrip.className = `card-rarity-strip rank-${rank.id}`;
 
+    // Winner highlight ring container
+    if (isWinner) {
+      const shockwave = document.createElement('div');
+      shockwave.className = 'winner-shockwave-ring';
+      card.appendChild(shockwave);
+    }
+
     card.appendChild(avatarWrapper);
     card.appendChild(nameEl);
     card.appendChild(roleEl);
@@ -110,23 +126,38 @@ class GachaRollerTrack {
     this.stripEl.innerHTML = '';
     this.tapeCards = [];
     this.winningCandidate = winningCandidate;
+    this.winningCardEl = null;
 
     const N = this.candidates.length;
 
     for (let i = 0; i < this.totalCardsInTape; i++) {
       let candidate;
-      if (i === this.winnerIndexInTape) {
+      const isWinner = (i === this.winnerIndexInTape);
+      if (isWinner) {
         candidate = winningCandidate;
       } else {
-        // Random candidate, try not to repeat the exact same one immediately
         const randomIdx = Math.floor(Math.random() * N);
         candidate = this.candidates[randomIdx];
       }
 
       this.tapeCards.push(candidate);
-      const cardEl = this.createCardElement(candidate, i === this.winnerIndexInTape);
+      const cardEl = this.createCardElement(candidate, isWinner);
+      if (isWinner) {
+        this.winningCardEl = cardEl;
+      }
       this.stripEl.appendChild(cardEl);
     }
+  }
+
+  /**
+   * Physically flick the needle with elastic kickback
+   */
+  flickNeedle(direction = 1) {
+    if (!this.needleContainer) return;
+    this.needleContainer.classList.remove('needle-flick-left', 'needle-flick-right');
+    // Force DOM reflow to restart keyframe animation
+    void this.needleContainer.offsetWidth;
+    this.needleContainer.classList.add(direction > 0 ? 'needle-flick-left' : 'needle-flick-right');
   }
 
   /**
@@ -136,6 +167,14 @@ class GachaRollerTrack {
     if (this.candidates.length === 0) return;
     this.isRolling = true;
     this.buildTape(winningCandidate);
+
+    if (this.needleContainer) {
+      this.needleContainer.classList.remove('needle-locked');
+    }
+    if (this.viewportEl) {
+      this.viewportEl.classList.remove('has-locked-winner', 'is-creeping-suspense');
+      this.viewportEl.classList.add('is-fast-spinning');
+    }
 
     const viewportWidth = this.viewportEl.clientWidth || 900;
     const centerPoint = viewportWidth / 2;
@@ -153,10 +192,12 @@ class GachaRollerTrack {
   }
 
   /**
-   * CS:GO Quartic Ease-Out deceleration
+   * High-Suspense Quintic Ease-Out with Long Tactile Crawl
+   * Rapid burst -> energetic glide -> progressive brake -> intense 1.5s creeping suspense
    */
-  easeOutQuartic(t) {
-    return 1 - Math.pow(1 - t, 4.2);
+  easeOutSuspense(t) {
+    // Custom tailored deceleration curve
+    return 1 - Math.pow(1 - t, 4.6);
   }
 
   animate() {
@@ -166,34 +207,89 @@ class GachaRollerTrack {
 
     if (elapsed < this.duration) {
       const progress = elapsed / this.duration;
-      const ease = this.easeOutQuartic(progress);
+      const ease = this.easeOutSuspense(progress);
 
       this.currentX = this.startX + (this.targetX - this.startX) * ease;
       this.stripEl.style.transform = `translateX(${this.currentX}px)`;
 
-      // Audio click calculation
+      // Instantaneous velocity (1.0 at start, decaying to 0.0)
+      const velocity = Math.max(0, 1 - Math.pow(progress, 0.7));
+
+      // Dynamic Motion Blur based on speed
+      if (this.viewportEl) {
+        if (progress > 0.45 && this.viewportEl.classList.contains('is-fast-spinning')) {
+          this.viewportEl.classList.remove('is-fast-spinning');
+        }
+        if (progress > 0.80 && !this.viewportEl.classList.contains('is-creeping-suspense')) {
+          this.viewportEl.classList.add('is-creeping-suspense');
+        }
+      }
+
+      // Audio click & Needle Physical Flick
       const cardPassed = Math.floor(Math.abs(this.currentX) / this.cardWidth);
       if (cardPassed !== this.lastCardTick) {
         this.lastCardTick = cardPassed;
-        const pitch = this.gender === 'male' ? 1 : 1.15;
-        if (window.gachaAudio) window.gachaAudio.playCsgoTick(pitch);
+
+        // Needle flick bounce
+        this.flickNeedle(cardPassed % 2 === 0 ? 1 : -1);
+
+        // Sound ratchet click
+        const pitch = this.gender === 'male' ? 1.0 : 1.15;
+        if (window.gachaAudio) {
+          window.gachaAudio.playCsgoTick(pitch, {
+            gender: this.gender,
+            velocity: velocity
+          });
+
+          // Suspense heartbeat during last 15% of spin
+          if (progress > 0.82 && cardPassed % 2 === 0) {
+            window.gachaAudio.playTensionHeartbeat();
+          }
+        }
       }
 
       requestAnimationFrame(() => this.animate());
     } else {
-      // Finished
+      // Reached exact target position
       this.currentX = this.targetX;
       this.stripEl.style.transform = `translateX(${this.currentX}px)`;
       this.isRolling = false;
 
-      // Highlight winning card
-      const winnerCards = this.stripEl.querySelectorAll('.winner-target');
-      winnerCards.forEach(c => c.classList.add('is-selected'));
+      // TRIGGER EPIC LOCK-IN MOMENT
+      this.handleWinnerLockIn();
+    }
+  }
 
+  /**
+   * Triumphant Winner Lock-In Moment
+   * Snaps needle, flashes golden shockwave, plays hextech lock-in chime,
+   * pauses 750ms for suspense payoff, then triggers modal.
+   */
+  handleWinnerLockIn() {
+    if (this.viewportEl) {
+      this.viewportEl.classList.remove('is-fast-spinning', 'is-creeping-suspense');
+      this.viewportEl.classList.add('has-locked-winner');
+    }
+
+    if (this.needleContainer) {
+      this.needleContainer.classList.add('needle-locked');
+    }
+
+    if (this.winningCardEl) {
+      this.winningCardEl.classList.add('winner-locked-in');
+    }
+
+    // Play euphoric Jackpot Lock-in Chime
+    if (window.gachaAudio) {
+      window.gachaAudio.playLockInSound(this.gender);
+    }
+
+    // Delay callback by 750ms so user can enjoy seeing the locked card on the track
+    setTimeout(() => {
       if (this.onComplete) {
         this.onComplete(this.winningCandidate);
       }
-    }
+    }, 750);
   }
 }
 

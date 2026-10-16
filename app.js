@@ -77,14 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const maleEmojis = ['👑', '🚀', '🎸', '⚡', '🎯', '🎧', '⚽', '🎮', '🏆', '🔥', '🌟', '🌊'];
 
   const defaultFemaleCandidates = rawFemaleNames.map((name, idx) => {
-    const pal = femaleColorPalettes[idx % femaleColorPalettes.length];
-    const emoji = femaleEmojis[idx % femaleEmojis.length];
-    return { name, avatar: generateAvatarSvg(name, pal[0], pal[1], emoji) };
+    const num = String(idx + 1).padStart(2, '0');
+    // Đường dẫn ảnh Teams thực tế tương ứng với từng thành viên nữ trong xem-avatar-18.html
+    const avatar = `avatars/female-${num}.jpg`;
+    return { name, avatar };
   });
 
   const defaultMaleCandidates = rawMaleNames.map((name, idx) => {
     const num = String(idx + 1).padStart(2, '0');
-    // Đường dẫn ảnh Teams thực tế tương ứng với từng thành viên trong xem-avatar.html
+    // Đường dẫn ảnh Teams thực tế tương ứng với từng thành viên nam trong xem-avatar.html
     const avatar = `avatars/male-${num}.jpg`;
     return { name, avatar };
   });
@@ -245,12 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Load candidates with version check (v6 uses real photo avatars)
-    const isV6 = localStorage.getItem('gacha_candidates_v6') === 'true';
+    // Load candidates with version check (v7 uses real photo avatars for BOTH male and female)
+    const isV7 = localStorage.getItem('gacha_candidates_v7') === 'true';
     const savedMale = localStorage.getItem('gacha_male_candidates');
     const savedFemale = localStorage.getItem('gacha_female_candidates');
 
-    if (isV6 && savedMale && savedFemale) {
+    if (isV7 && savedMale && savedFemale) {
       try {
         maleList = sanitizeList(JSON.parse(savedMale), defaultMaleCandidates);
         femaleList = sanitizeList(JSON.parse(savedFemale), defaultFemaleCandidates);
@@ -263,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
       femaleList = [...defaultFemaleCandidates];
       localStorage.setItem('gacha_male_candidates', JSON.stringify(maleList));
       localStorage.setItem('gacha_female_candidates', JSON.stringify(femaleList));
-      localStorage.setItem('gacha_candidates_v6', 'true');
+      localStorage.setItem('gacha_candidates_v7', 'true');
     }
 
     // Đảm bảo mặc định tắt cài cắm tỉ lệ cho tất cả người dùng
@@ -396,6 +397,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     isSpinning = true;
     btnSpin.disabled = true;
+    btnSpin.classList.add('is-spinning');
+    btnSpin.innerHTML = `
+      <span class="spin-icon spin-spinning-dice">🎲</span>
+      <span class="spin-text">ĐANG KẾT DUYÊN HỒI HỘP...</span>
+      <span class="spin-sub">CẶP ĐÔI ĐANG ĐƯỢC CHỌN LỰA</span>
+    `;
     maleFinished = null;
     femaleFinished = null;
 
@@ -403,8 +410,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const chosenMale = pickMaleWinner();
     const chosenFemale = pickFemaleWinner();
 
-    // Start audio
+    // Start tactile audio & whoosh
     if (window.gachaAudio) {
+      window.gachaAudio.playBtnClick();
       window.gachaAudio.playWhoosh();
     }
 
@@ -431,6 +439,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (maleFinished && femaleFinished) {
       isSpinning = false;
       btnSpin.disabled = false;
+      btnSpin.classList.remove('is-spinning');
+      btnSpin.innerHTML = `
+        <span class="spin-icon">🎲</span>
+        <span class="spin-text">QUAY GHÉP CẶP ĐÔI</span>
+        <span class="spin-sub">HOẶC NHẤN SPACE / CTRL+ENTER</span>
+      `;
       onCoupleMatched(maleFinished, femaleFinished);
     }
   }
