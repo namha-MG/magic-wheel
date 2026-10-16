@@ -652,23 +652,25 @@ body.gacha-body {
   transform: scale(1) translateY(0);
 }
 
-/* Romantic Dialog Details */
+/* Celebration Dialog Details */
+.celebration-dialog,
 .romantic-dialog {
   text-align: center;
   padding: 38px 32px 30px;
-  background: linear-gradient(180deg, #26153b 0%, #150d26 100%);
-  border: 1px solid rgba(255, 64, 129, 0.45);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.8), 0 0 80px rgba(255, 42, 133, 0.35);
+  background: linear-gradient(180deg, #1b1938 0%, #0f0d22 100%);
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.8), 0 0 70px rgba(124, 77, 255, 0.35);
 }
 
+.buddy-badge-header,
 .love-badge-header {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 6px 20px;
-  background: rgba(255, 64, 129, 0.15);
-  border: 1px solid rgba(255, 64, 129, 0.4);
-  color: #ff80ab;
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.45);
+  color: #ffd700;
   border-radius: var(--radius-full);
   font-family: var(--font-heading);
   font-size: 13.5px;
@@ -677,15 +679,16 @@ body.gacha-body {
   margin-bottom: 12px;
 }
 
+.celebration-title,
 .romantic-title {
   font-family: var(--font-heading);
-  font-size: clamp(26px, 4.5vw, 36px);
+  font-size: clamp(24px, 4.2vw, 34px);
   font-weight: 900;
   letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #ffffff 0%, #ffd700 50%, #ff4081 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffd700 50%, #00e5ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 14px rgba(255, 64, 129, 0.5));
+  filter: drop-shadow(0 2px 14px rgba(255, 215, 0, 0.4));
   margin-bottom: 24px;
 }
 
@@ -800,38 +803,41 @@ body.gacha-body {
   min-width: 80px;
 }
 
+.buddy-beating,
 .big-heart-beating {
   position: relative;
   font-size: 54px;
-  animation: heartThrob 1.2s infinite ease-in-out;
+  animation: buddyBounce 1.2s infinite ease-in-out;
   cursor: default;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-@keyframes heartThrob {
-  0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 42, 133, 0.6)); }
-  25% { transform: scale(1.22); filter: drop-shadow(0 0 26px rgba(255, 42, 133, 0.95)); }
-  40% { transform: scale(1.05); }
-  60% { transform: scale(1.18); filter: drop-shadow(0 0 22px rgba(255, 42, 133, 0.85)); }
-  100% { transform: scale(1); }
+@keyframes buddyBounce {
+  0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5)); }
+  30% { transform: scale(1.22) rotate(-6deg); filter: drop-shadow(0 0 24px rgba(0, 229, 255, 0.8)); }
+  50% { transform: scale(1.08) rotate(4deg); }
+  70% { transform: scale(1.18) rotate(-3deg); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7)); }
+  100% { transform: scale(1) rotate(0deg); }
 }
 
-/* Romantic Quote */
+/* Coworker Quote Box */
+.celebration-quote-box,
 .romantic-quote-box {
-  padding: 12px 18px;
-  background: rgba(255, 255, 255, 0.04);
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-md);
-  border: 1px dashed rgba(255, 255, 255, 0.15);
-  margin-bottom: 24px;
+  border: 1px dashed rgba(255, 215, 0, 0.35);
+  margin-bottom: 20px;
 }
 
 .quote-text {
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 600;
-  color: #ffccd5;
-  font-style: italic;
+  color: #fff8e1;
+  font-style: normal;
+  line-height: 1.5;
 }
 
 .female-removed-notice {
@@ -839,10 +845,10 @@ body.gacha-body {
   align-items: center;
   gap: 8px;
   padding: 6px 16px;
-  background: rgba(255, 42, 133, 0.12);
-  border: 1px solid rgba(255, 42, 133, 0.35);
+  background: rgba(0, 210, 255, 0.12);
+  border: 1px solid rgba(0, 210, 255, 0.35);
   border-radius: var(--radius-full);
-  color: #ff80ab;
+  color: #80d8ff;
   font-family: var(--font-heading);
   font-size: 13px;
   font-weight: 700;
@@ -868,14 +874,15 @@ body.gacha-body {
 }
 
 .romantic-btn.primary {
-  background: linear-gradient(135deg, #ff2a85 0%, #7c4dff 100%);
+  background: linear-gradient(135deg, #00c853 0%, #00b0ff 100%);
   color: #ffffff;
-  box-shadow: 0 4px 16px rgba(255, 42, 133, 0.45);
+  box-shadow: 0 4px 18px rgba(0, 200, 83, 0.4);
 }
 
 .romantic-btn.primary:hover {
   filter: brightness(1.1);
   transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(0, 200, 83, 0.6);
 }
 
 .romantic-btn.secondary {

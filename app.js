@@ -90,52 +90,54 @@ document.addEventListener('DOMContentLoaded', () => {
     return { name, avatar: generateAvatarSvg(name, colors[0], colors[1], emoji) };
   });
 
-  // Romantic Quotes Pool - Mỗi cặp đôi 1 câu chúc độc nhất không lặp lại
-  const romanticQuotes = [
-    '“Duyên do trời định, phận do người tạo. Chúc mừng hai bạn đã tìm thấy nhau giữa muôn vạn người! 💖”',
-    '“Trời sinh một cặp, trăm năm hòa hợp, duyên thắm tình nồng, hạnh phúc đong đầy! 🌸”',
-    '“Gặp gỡ là duyên, đồng hành là nợ. Hãy cùng nhau viết nên một câu chuyện tình thật ngọt ngào nhé! ✨”',
-    '“Vượt qua hàng vạn vòng quay số phận, cuối cùng ánh mắt định mệnh cũng dừng lại ở người ấy! 💫”',
-    '“Tình yêu không cần tìm kiếm đâu xa, người ấy đã xuất hiện ngay trước mắt bạn hôm nay! 🌹”',
-    '“Chúc hai bạn sớm chung đôi, ngọt ngào như trà sữa trân châu và bền chặt như kim cương! 🧋”',
-    '“Một người hiểu, một người thương — chúc hai bạn một đời an yên, ngọt ngào và trọn vẹn! 🌷”',
-    '“Từ hôm nay, thế giới bớt đi hai người cô đơn và có thêm một cặp đôi siêu đáng yêu! 👫”',
-    '“Trăng dưới nước là trăng trên trời, người trước mặt là người trong tim. Chúc mừng hai bạn! 🌙”',
-    '“Chúc chàng trai luôn là chỗ dựa vững chãi, cô gái luôn rạng rỡ nụ cười hạnh phúc! 🌟”',
-    '“Gió tầng nào gặp mây tầng đó, người xuất sắc như bạn xứng đáng sánh bước cùng người tuyệt vời này! 👑”',
-    '“Khoảnh khắc hai dải quay dừng lại cũng là lúc nhịp đập hai con tim hòa chung làm một! 💓”',
-    '“Hôm nay định mệnh đã se duyên, chúc hai bạn sớm có buổi hẹn hò đầu tiên thật lãng mạn nhé! ☕”',
-    '“Chúc tình yêu của hai bạn luôn ngập tràn tiếng cười, ngọt ngào từng phút giây và bền bỉ theo năm tháng! 🎀”',
-    '“Người ta nói trăm năm mới chung thuyền, ngàn năm mới chung đôi — chúc mừng mối lương duyên tiền định! ⛵”',
-    '“Một nụ cười bằng mười thang thuốc bổ, ở bên người này bạn sẽ cười tươi suốt cả ngày dài! 🥰”',
-    '“Chúc hai bạn tay trong tay cùng bước qua mọi thăng trầm, viết tiếp những trang kỷ niệm rực rỡ nhất! 📖”',
-    '“Vũ trụ đã gửi tín hiệu rõ ràng rồi đấy, chần chừ gì nữa mà không mời nhau một ly cà phê ấm áp! 💌”',
-    '“Đẹp đôi như chim liền cánh, như cây liền cành. Chúc hai bạn bách niên giai lão! 🕊️”',
-    '“Chúc cho ánh mắt hai bạn nhìn nhau hôm nay sẽ mãi lấp lánh như ngày đầu tiên gặp gỡ! ✨”',
-    '“Duyên phận đã mang hai bạn đến với nhau, tình yêu chân thành sẽ giữ hai bạn bên nhau mãi mãi! 💍”',
-    '“Chúc chàng và nàng tìm thấy ở nhau sự bình yên nhất giữa thế giới ồn ào vội vã! 🌈”',
-    '“Bên ngoài gió bão mặc kệ đời, có nhau ở cạnh là thấy bình yên. Chúc hai bạn luôn hạnh phúc! 🍃”',
-    '“Gặp đúng người vào đúng thời điểm chính là món quà kỳ diệu nhất của cuộc sống! 🎁”',
-    '“Chúc cho những buổi trò chuyện sau hôm nay sẽ kéo dài thâu đêm mà không hề thấy chán! 🌙”',
-    '“Hạnh phúc không phải là đích đến, mà là hành trình được đồng hành cùng người mình thương! 🚲”',
-    '“Cả hội trường đang háo hức chờ đợi tin vui từ cặp đôi trai tài gái sắc này đấy nhé! 🎉”',
-    '“Chúc hai bạn luôn lắng nghe, thấu hiểu và cùng nhau tạo nên những khoảnh khắc đáng nhớ nhất! 🎶”',
-    '“Thế giới có hơn 8 tỷ người, nhưng định mệnh đã chọn hai bạn dành cho nhau ngày hôm nay! 🌍”',
-    '“Chúc cho tình cảm của hai bạn luôn nồng nàn như ngày đầu, ngọt ngào và ấm áp như nắng sớm ban mai! ☀️”',
-    '“Người ta tìm kiếm cả đời một tri kỷ, còn hai bạn chỉ mất một lượt quay gacha định mệnh! 🍀”',
-    '“Chúc hai bạn mãi là ngọn lửa sưởi ấm tâm hồn nhau trong những ngày mùa đông se lạnh! 🔥”',
-    '“Tình cảm chân thành sẽ luôn tìm được bến đỗ bình yên. Chúc mừng cặp đôi hoàn hảo hôm nay! ⚓”',
-    '“Chúc cho hành trình phía trước của hai bạn luôn tràn ngập hoa hồng, niềm vui và sự thấu hiểu! 💐”',
-    '“Duyên trời đã định sẵn, mong hai bạn hãy trân trọng và vun đắp cho hạt mầm tình yêu đơm hoa kết trái! 🌳”',
-    '“Trời cao có mắt, duyên nợ có đôi. Chúc hai bạn mở đầu một chương mới ngập tràn hạnh phúc! 🎊”'
+  // Kho câu chúc & bình luận đồng nghiệp vui vẻ (Mỗi cặp đôi 1 câu độc nhất không lặp lại)
+  const coworkerQuotes = [
+    '“Cặp bài trùng mới của công ty! Chiều nay ai bao trà sữa thì tự thương lượng nhé! 🧋”',
+    '“Đồng đội gánh team xuất sắc! Từ nay KPI hay deadline gì cũng có nhau chia sẻ rồi! 💼”',
+    '“Cặp đôi đồng nghiệp chuẩn gu! Đi làm có cạ cứng là mỗi ngày đều tràn ngập tiếng cười! 😄”',
+    '“Vũ trụ đã gọi tên hai bạn cho dự án... đi ăn trưa và bàn chuyện thiên hạ cùng nhau! 🍜”',
+    '“Một người nghĩ ý tưởng, một người thực chiến — chúc hai bạn phối hợp ăn ý đỉnh cao! 🚀”',
+    '“Đôi bạn cùng tiến của phòng ban! Chúc hai bạn hợp tác vui vẻ, năng lượng ngập tràn! ⚡”',
+    '“Trúng ngay bạn đồng hành siêu nhiệt tình! Chiều nay rủ nhau làm ly cà phê chém gió ngay thôi! ☕”',
+    '“Gương mặt vàng trong làng phối hợp! Chúc cặp đôi mới luôn rôm rả tiếng cười và làm việc hết mình! 🌟”',
+    '“Đồng lòng tát cạn deadline, cùng nhau rinh thưởng lớn cuối tháng về nhà! 🎯”',
+    '“Cặp đôi cạ cứng mới xuất hiện! Chiều nay tha hồ rủ nhau đặt đồ ăn vặt nhé! 🍕”',
+    '“Một người dí deadline, một người chạy deadline — sự kết hợp không thể hoàn hảo hơn! 🏃”',
+    '“Gặp đúng cạ nói chuyện rôm rả cả ngày! Chúc hai bạn có những giờ phút làm việc thật vui vẻ! 🎊”',
+    '“Hai chiến thần văn phòng hội ngộ! Chuẩn bị quẩy banh nóc trong các hoạt động sắp tới nhé! 🥳”',
+    '“Cặp đôi ăn ý từ ánh nhìn đầu tiên! Chúc hai bạn cùng nhau tạo nên thật nhiều kỷ niệm đáng nhớ! 📸”',
+    '“Được ghép đôi với bạn này là yên tâm có đồng minh vững chắc trong mọi cuộc vui rồi! 🛡️”',
+    '“Cặp bài trùng quẩy tiệc công ty! Sắp tới có mini-game là bao trọn giải nhất nhé! 🏆”',
+    '“Một sự kết hợp bất ngờ nhưng cực kỳ triển vọng! Chúc hai bạn hợp tác siêu ăn ý! 🤝”',
+    '“Thêm một liên minh vững chắc ra đời! Công việc trôi chảy, tinh thần lúc nào cũng phơi phới! 🌈”',
+    '“Đồng nghiệp chuẩn mười điểm không có nhưng! Chúc hai bạn luôn tràn đầy năng lượng tích cực! 💯”',
+    '“Hôm nay làm đồng đội, mai rủ nhau đi ăn lẩu! Chúc cặp đôi mới luôn gắn kết và vui vẻ! 🍲”',
+    '“Tổ đội săn voucher giảm giá và đặt trà sữa chuẩn bị kích hoạt hết công suất! 🛵”',
+    '“Nhìn qua là thấy hợp cạ rồi! Chúc hai bạn luôn hỗ trợ nhau hết mình trong công việc nhé! 👏”',
+    '“Hai mảnh ghép hoàn hảo cho những cuộc trò chuyện xả stress sau giờ làm việc căng thẳng! 🏖️”',
+    '“Chúc đôi bạn luôn song kiếm hợp bích, việc khó đến mấy cũng giải quyết cái một! ⚔️”',
+    '“Vừa có bạn đồng hành hợp ý, vừa có đồng minh ăn vặt — quá hời cho một lượt quay gacha! 🍩”',
+    '“Chúc hai bạn luôn giữ tinh thần lạc quan, làm hết sức và chơi hết mình cùng tập thể! 🎈”',
+    '“Cặp đôi hài hước nhất ngày hôm nay! Đảm bảo ở đâu có hai bạn là ở đó có tiếng cười! 🤣”',
+    '“Đồng đội tuyệt vời là đây chứ đâu! Chúc hai bạn có thật nhiều trải nghiệm thú vị cùng nhau! 🧩”',
+    '“Cặp đôi năng động, nhiệt huyết! Sẵn sàng bùng nổ trong mọi thử thách tiếp theo nhé! 🔥”',
+    '“Từ nay đi làm không lo cô đơn giờ nghỉ trưa nữa rồi, chúc hai bạn kết hợp thật ăn ý! 🍱”',
+    '“Phối hợp nhịp nhàng, chia việc rõ ràng, tan làm đúng giờ cùng nhau về! ⏰”',
+    '“Bộ đôi ngoại giao đỉnh chóp của phòng ban! Chúc hai bạn luôn vui tươi và nhiều may mắn! 🌺”',
+    '“Chào mừng liên quân mới toanh! Chúc hai bạn hợp tác vui vẻ, gặt hái nhiều thành tích! 🥇”',
+    '“Một sự kết hợp mang lại 100% tiếng cười và sự thoải mái cho cả văn phòng! 🌻”',
+    '“Đôi bạn tri kỷ bàn làm việc! Chúc hai bạn luôn đồng hành và sẻ chia cùng nhau nhé! 💻”',
+    '“Cặp đôi phong cách và tràn đầy năng lượng tích cực! Chúc hai bạn luôn gắn bó bền chặt! ✨”',
+    '“Có đồng đội xịn thế này thì ngày nào đi làm cũng tràn đầy hứng khởi! 🎉”',
+    '“Cặp đôi siêu năng suất! Dự báo các dự án tới đây sẽ hoàn thành trước hạn một cách thần tốc! 🚀”'
   ];
 
   // Quản lý kho câu chúc không lặp lại cho mỗi cặp đôi
-  let unusedQuotes = [...romanticQuotes];
+  let unusedQuotes = [...coworkerQuotes];
 
-  function getUniqueRomanticQuote() {
+  function getUniqueCoworkerQuote() {
     if (unusedQuotes.length === 0) {
-      unusedQuotes = [...romanticQuotes];
+      unusedQuotes = [...coworkerQuotes];
     }
     const idx = Math.floor(Math.random() * unusedQuotes.length);
     const chosen = unusedQuotes.splice(idx, 1)[0];
@@ -432,11 +434,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (femaleRemovedNotice) {
-      femaleRemovedNotice.innerHTML = `<span>✨ Đã ghép đôi & loại <strong>${escapeHtml(female.name)}</strong> khỏi danh sách (Còn lại ${femaleList.length} bạn Nữ)</span>`;
+      femaleRemovedNotice.innerHTML = `<span>✨ Đã ghép cặp & loại <strong>${escapeHtml(female.name)}</strong> khỏi danh sách (Còn lại ${femaleList.length} đồng nghiệp Nữ)</span>`;
     }
 
-    // Sound & Particles
-    if (window.gachaAudio) window.gachaAudio.playRomanticChime();
+    // Sound & Particles (Vui tươi, rộn ràng)
+    if (window.gachaAudio) window.gachaAudio.playCelebrationFanfare();
     if (window.romanticParticles) window.romanticParticles.burst();
 
     // Populate Modal
@@ -445,24 +447,24 @@ document.addEventListener('DOMContentLoaded', () => {
     revealFemaleAvatar.src = female.avatar;
     revealFemaleName.textContent = female.name;
 
-    // Mỗi cặp 1 câu chúc độc nhất không lặp lại
-    romanticQuote.textContent = getUniqueRomanticQuote();
+    // Mỗi cặp 1 câu bình luận/chúc mừng đồng nghiệp độc nhất không lặp lại
+    romanticQuote.textContent = getUniqueCoworkerQuote();
 
-    // Show Romantic Modal
+    // Show Celebration Modal
     romanticModal.classList.add('active');
     romanticModal.setAttribute('aria-hidden', 'false');
   }
 
   function renderHistory() {
     if (matchHistory.length === 0) {
-      recentMatchesList.innerHTML = '<span class="no-match-text">Chưa có lượt quay nào.</span>';
+      recentMatchesList.innerHTML = '<span class="no-match-text">Chưa có lượt quay nào. Hãy bấm "QUAY GHÉP ĐỒNG ĐỘI" ngay!</span>';
       return;
     }
 
     recentMatchesList.innerHTML = matchHistory.slice(0, 5).map(m => `
       <div class="match-history-pill">
         <span class="name-male">${escapeHtml(m.male)}</span>
-        <span>❤️</span>
+        <span>🤝</span>
         <span class="name-female">${escapeHtml(m.female)}</span>
       </div>
     `).join('');
@@ -561,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <img class="member-item-avatar" src="${person.avatar}" alt="${escapeHtml(person.name)}">
         <div class="member-item-info">
           <div class="member-item-name" title="${escapeHtml(person.name)}">${escapeHtml(person.name)}</div>
-          <div style="font-size:11px; color:var(--text-dim);">${currentActiveManageGender === 'male' ? 'Bạn Nam' : 'Bạn Nữ'}</div>
+          <div style="font-size:11px; color:var(--text-dim);">${currentActiveManageGender === 'male' ? 'Đồng nghiệp Nam' : 'Đồng nghiệp Nữ'}</div>
         </div>
         <button class="member-delete-btn" title="Xóa">✕</button>
       `;
@@ -659,7 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   btnClearCurrentList.addEventListener('click', () => {
-    if (confirm(`Bạn có chắc muốn xóa tất cả danh sách ${currentActiveManageGender === 'male' ? 'Đàng Trai' : 'Đàng Gái'}?`)) {
+    if (confirm(`Bạn có chắc muốn xóa tất cả danh sách ${currentActiveManageGender === 'male' ? 'Đồng nghiệp Nam' : 'Đồng nghiệp Nữ'}?`)) {
       if (currentActiveManageGender === 'male') {
         maleList = [];
       } else {
@@ -748,7 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (confirm('Khôi phục lại danh sách thành viên Nam & Nữ mẫu ban đầu?')) {
       maleList = [...defaultMaleCandidates];
       femaleList = [...defaultFemaleCandidates];
-      unusedQuotes = [...romanticQuotes];
+      unusedQuotes = [...coworkerQuotes];
       saveCandidates();
       showToast('Đã khôi phục dữ liệu mẫu và làm mới kho câu chúc!');
     }
