@@ -83,11 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const defaultMaleCandidates = rawMaleNames.map((name, idx) => {
-    const pal = maleColorPalettes[idx % maleColorPalettes.length];
-    const isTarget = name.includes('Nguyễn Trọng Linh');
-    const emoji = isTarget ? '👑' : maleEmojis[idx % maleEmojis.length];
-    const colors = isTarget ? ['#ff9900', '#ffd700'] : pal;
-    return { name, avatar: generateAvatarSvg(name, colors[0], colors[1], emoji) };
+    const num = String(idx + 1).padStart(2, '0');
+    // Đường dẫn ảnh Teams thực tế tương ứng với từng thành viên trong xem-avatar.html
+    const avatar = `avatars/male-${num}.jpg`;
+    return { name, avatar };
   });
 
   // Kho câu chúc & bình luận đồng nghiệp vui vẻ (Mỗi cặp đôi 1 câu độc nhất không lặp lại)
@@ -231,25 +230,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // State Initialization & Persistence
   // -------------------------------------------------------------
   function loadSavedData() {
-    // Helper to sanitize any name by removing numbers
-    function sanitizeList(list) {
+    // Helper to sanitize any name by removing numbers and ensuring avatar paths
+    function sanitizeList(list, defaultRefList) {
       if (!Array.isArray(list)) return [];
       return list.map(item => {
         if (!item || !item.name) return item;
         const cleanName = item.name.replace(/\d+/g, '').replace(/\s+/g, ' ').trim();
-        return { ...item, name: cleanName };
+        let avatar = item.avatar;
+        if (defaultRefList) {
+          const found = defaultRefList.find(d => d.name === cleanName);
+          if (found && found.avatar && (!avatar || avatar.startsWith('data:image/svg'))) {
+            avatar = found.avatar;
+          }
+        }
+        return { ...item, name: cleanName, avatar: avatar || item.avatar };
       });
     }
 
-    // Load candidates with version check
-    const isV5 = localStorage.getItem('gacha_candidates_v5') === 'true';
+    // Load candidates with version check (v6 uses real photo avatars)
+    const isV6 = localStorage.getItem('gacha_candidates_v6') === 'true';
     const savedMale = localStorage.getItem('gacha_male_candidates');
     const savedFemale = localStorage.getItem('gacha_female_candidates');
 
-    if (isV5 && savedMale && savedFemale) {
+    if (isV6 && savedMale && savedFemale) {
       try {
-        maleList = sanitizeList(JSON.parse(savedMale));
-        femaleList = sanitizeList(JSON.parse(savedFemale));
+        maleList = sanitizeList(JSON.parse(savedMale), defaultMaleCandidates);
+        femaleList = sanitizeList(JSON.parse(savedFemale), defaultFemaleCandidates);
       } catch (e) {
         maleList = [...defaultMaleCandidates];
         femaleList = [...defaultFemaleCandidates];
@@ -259,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
       femaleList = [...defaultFemaleCandidates];
       localStorage.setItem('gacha_male_candidates', JSON.stringify(maleList));
       localStorage.setItem('gacha_female_candidates', JSON.stringify(femaleList));
-      localStorage.setItem('gacha_candidates_v5', 'true');
+      localStorage.setItem('gacha_candidates_v6', 'true');
     }
 
     // Load rig config
