@@ -71,7 +71,7 @@ class GachaRollerTrack {
     // Role
     const roleEl = document.createElement('div');
     roleEl.className = 'card-gender-role';
-    roleEl.textContent = this.gender === 'male' ? 'Nam' : 'Nữ';
+    roleEl.textContent = this.gender === 'male' ? 'Đàng Trai' : 'Đàng Gái';
 
     // Rarity strip
     const rarityStrip = document.createElement('div');

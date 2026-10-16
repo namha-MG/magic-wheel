@@ -52,13 +52,32 @@ class CelebrationParticleEngine {
     ctx.restore();
   }
 
+  drawHeart(ctx, x, y, size, color, alpha) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(size / 30, size / 30);
+    ctx.globalAlpha = Math.max(0, alpha);
+    ctx.fillStyle = color;
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(-10, -15, -25, -5, -25, 10);
+    ctx.bezierCurveTo(-25, 25, -5, 35, 0, 45);
+    ctx.bezierCurveTo(5, 35, 25, 25, 25, 10);
+    ctx.bezierCurveTo(25, -5, 10, -15, 0, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
   createConfetti(startX, startY) {
     const colors = [
-      '#ffd700', '#ff9800', '#00e676', '#00d2ff',
-      '#e040fb', '#ff4081', '#7c4dff', '#ffffff'
+      '#ffd700', '#ff4081', '#ff80ab', '#ff1744',
+      '#00d2ff', '#e040fb', '#ff9800', '#ffffff'
     ];
     const angle = Math.random() * Math.PI * 2;
     const speed = 4 + Math.random() * 10;
+    const randType = Math.random();
     return {
       x: startX || window.innerWidth / 2,
       y: startY || window.innerHeight / 2,
@@ -74,7 +93,8 @@ class CelebrationParticleEngine {
       tilt: Math.random() * 10,
       tiltSpeed: 0.08 + Math.random() * 0.08,
       gravity: 0.16,
-      isStar: Math.random() < 0.25
+      isStar: randType < 0.2,
+      isHeart: randType >= 0.2 && randType < 0.45
     };
   }
 
@@ -153,6 +173,8 @@ class CelebrationParticleEngine {
 
       if (c.isStar) {
         this.drawStar(this.ctx, c.x, c.y, 5, c.w * 0.9, c.w * 0.45, c.color, c.alpha);
+      } else if (c.isHeart) {
+        this.drawHeart(this.ctx, c.x, c.y, c.w * 1.4, c.color, c.alpha);
       } else {
         this.ctx.save();
         this.ctx.translate(c.x, c.y);

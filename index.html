@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vòng Quay Ghép Đôi Đồng Nghiệp - TeamMatch Gacha</title>
-  <meta name="description" content="Quay gacha ghép đôi đồng nghiệp, bạn đồng hành teambuilding vui vẻ, mượt mà và hào hứng.">
+  <title>Vòng Quay Ghép Đôi - LoveMatch Gacha</title>
+  <meta name="description" content="Quay gacha ghép đôi song song Nam Nữ, se duyên kết nối cặp đôi ngọt ngào, mượt mà và hào hứng.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Montserrat:wght@600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
@@ -15,11 +15,11 @@
   <header class="navbar">
     <div class="nav-left">
       <div class="brand-logo">
-        <span class="brand-icon">🤝</span>
-        <span class="brand-text">TEAMMATCH <span>GACHA</span></span>
+        <span class="brand-icon">💘</span>
+        <span class="brand-text">LOVEMATCH <span>GACHA</span></span>
       </div>
       <div class="nav-badges">
-        <span class="mode-badge">PHIÊN BẢN ĐỒNG NGHIỆP</span>
+        <span class="mode-badge">VÒNG QUAY GHÉP ĐÔI</span>
       </div>
     </div>
 
@@ -45,8 +45,8 @@
   <main class="gacha-arena">
     <!-- Header Subtitle / Status -->
     <div class="arena-header">
-      <h1 class="arena-title">VÒNG QUAY GHÉP ĐÔI ĐỒNG NGHIỆP</h1>
-      <p class="arena-desc">Quay song song hai dải Gacha để ghép cặp bạn đồng hành, đồng đội vui vẻ</p>
+      <h1 class="arena-title">VÒNG QUAY GHÉP ĐÔI</h1>
+      <p class="arena-desc">Quay song song hai dải Gacha để se duyên, kết nối cặp đôi hoàn hảo</p>
     </div>
 
     <!-- The 2 Parallel Rolling Tracks -->
@@ -57,10 +57,10 @@
         <div class="track-header">
           <div class="track-badge male-badge">
             <span class="track-symbol">♂</span>
-            <span class="track-title">ĐỒNG NGHIỆP NAM</span>
+            <span class="track-title">ĐÀNG TRAI (BẠN NAM)</span>
           </div>
           <div class="track-count">
-            <span id="maleCountBadge">0</span> thành viên
+            <span id="maleCountBadge">0</span> bạn nam
           </div>
         </div>
 
@@ -84,7 +84,7 @@
           <button class="csgo-spin-btn" id="btnSpin">
             <span class="spin-btn-glow"></span>
             <span class="spin-icon">🎲</span>
-            <span class="spin-text">QUAY GHÉP ĐỒNG ĐỘI</span>
+            <span class="spin-text">QUAY GHÉP CẶP ĐÔI</span>
             <span class="spin-sub">HOẶC NHẤN SPACE / CTRL+ENTER</span>
           </button>
         </div>
@@ -96,10 +96,10 @@
         <div class="track-header">
           <div class="track-badge female-badge">
             <span class="track-symbol">♀</span>
-            <span class="track-title">ĐỒNG NGHIỆP NỮ</span>
+            <span class="track-title">ĐÀNG GÁI (BẠN NỮ)</span>
           </div>
           <div class="track-count">
-            <span id="femaleCountBadge">0</span> thành viên
+            <span id="femaleCountBadge">0</span> bạn nữ
           </div>
         </div>
 
@@ -121,32 +121,32 @@
     <!-- History Bar -->
     <div class="gacha-footer-bar">
       <div class="recent-matches-title">
-        <span>🤝 Các cặp đồng đội vừa ghép:</span>
+        <span>💘 Các cặp đôi vừa ghép:</span>
       </div>
       <div class="recent-matches-list" id="recentMatchesList">
-        <span class="no-match-text">Chưa có lượt quay nào. Hãy bấm "QUAY GHÉP ĐỒNG ĐỘI" ngay!</span>
+        <span class="no-match-text">Chưa có lượt quay nào. Hãy bấm "QUAY GHÉP CẶP ĐÔI" ngay!</span>
       </div>
       <div class="secret-version-trigger" id="versionSecretTrigger" title="Nhấp 3 lần để mở cấu hình tỉ lệ">
-        <span>Version 2.8</span>
+        <span>Version 2.9</span>
         <span class="lock-pill">🔒 Rigged</span>
       </div>
     </div>
   </main>
 
-  <!-- CELEBRATION REVEAL MODAL (Ghép đôi đồng nghiệp vui vẻ) -->
+  <!-- CELEBRATION REVEAL MODAL (Ghép đôi ngọt ngào, ấm áp) -->
   <div class="modal-backdrop" id="romanticModal" aria-hidden="true">
     <div class="modal-dialog romantic-dialog celebration-dialog">
       <!-- Bokeh Sparkles Layer -->
       <div class="romantic-sparkles-layer" id="romanticSparkles"></div>
 
-      <!-- Buddy Badge -->
-      <div class="love-badge-header buddy-badge-header">
-        <span class="heart-pulse">🎉</span>
-        <span>CẶP ĐÔI ĐỒNG NGHIỆP MỚI</span>
-        <span class="heart-pulse">🎉</span>
+      <!-- Love Badge -->
+      <div class="love-badge-header">
+        <span class="heart-pulse">💖</span>
+        <span>MỐI DUYÊN HOÀN HẢO</span>
+        <span class="heart-pulse">💖</span>
       </div>
 
-      <h2 class="romantic-title celebration-title">TÌM THẤY ĐỒNG ĐỘI HỢP CẠ!</h2>
+      <h2 class="romantic-title celebration-title">GHÉP ĐÔI THÀNH CÔNG!</h2>
 
       <!-- Couple Showcase Cards -->
       <div class="couple-stage">
@@ -155,14 +155,14 @@
           <div class="avatar-ring-outer male-ring">
             <img id="revealMaleAvatar" class="couple-avatar-img" src="" alt="Nam">
           </div>
-          <div class="couple-gender-tag male-tag">ĐỒNG NGHIỆP NAM</div>
+          <div class="couple-gender-tag male-tag">ĐÀNG TRAI</div>
           <div class="couple-name" id="revealMaleName">Nguyễn Trọng Linh</div>
         </div>
 
-        <!-- Center Buddy Connector -->
+        <!-- Center Love Heart Connector -->
         <div class="couple-heart-connector">
-          <div class="big-heart-beating buddy-beating">
-            <span class="heart-emoji">🤝</span>
+          <div class="big-heart-beating">
+            <span class="heart-emoji">💖</span>
             <div class="heart-glow-ring"></div>
           </div>
         </div>
@@ -172,21 +172,21 @@
           <div class="avatar-ring-outer female-ring">
             <img id="revealFemaleAvatar" class="couple-avatar-img" src="" alt="Nữ">
           </div>
-          <div class="couple-gender-tag female-tag">ĐỒNG NGHIỆP NỮ</div>
+          <div class="couple-gender-tag female-tag">ĐÀNG GÁI</div>
           <div class="couple-name" id="revealFemaleName">Nguyễn Thùy Tiên</div>
         </div>
       </div>
 
-      <!-- Coworker Quote / Comment -->
+      <!-- Romantic / Sweet Quote Box -->
       <div class="romantic-quote-box celebration-quote-box">
         <p class="quote-text" id="romanticQuote">
-          "Cặp bài trùng mới của công ty! Chiều nay rủ nhau làm ly trà sữa ngay thôi! 🧋"
+          "Gặp được nhau giữa bao nhiêu người đã là duyên lành. Chúc hai bạn luôn gắn kết và ấm áp bên nhau! 💖"
         </p>
       </div>
 
       <!-- Female auto-removed notification badge -->
       <div class="female-removed-notice" id="femaleRemovedNotice">
-        <span>✨ Đã ghép cặp & loại bạn Nữ khỏi danh sách cho các lượt quay tiếp theo</span>
+        <span>✨ Đã se duyên & loại bạn Nữ khỏi danh sách cho các lượt quay tiếp theo</span>
       </div>
 
       <!-- Action Buttons -->
@@ -203,11 +203,11 @@
       <div class="dialog-header">
         <div class="header-tab-group">
           <button class="dialog-tab-btn active" id="tabManageMale" data-gender="male">
-            <span>♂ Nam</span>
+            <span>♂ Đàng Trai</span>
             <span class="tab-badge" id="manageMaleBadge">0</span>
           </button>
           <button class="dialog-tab-btn" id="tabManageFemale" data-gender="female">
-            <span>♀ Nữ</span>
+            <span>♀ Đàng Gái</span>
             <span class="tab-badge" id="manageFemaleBadge">0</span>
           </button>
         </div>
