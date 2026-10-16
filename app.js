@@ -307,8 +307,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function triggerSpin() {
     if (isSpinning) return;
-    if (maleList.length === 0 || femaleList.length === 0) {
-      alert('Vui lòng thêm ít nhất một bạn Nam và một bạn Nữ trong mục "Quản Lý Thành Viên"!');
+    if (maleList.length === 0) {
+      alert('Danh sách bạn Nam đang trống! Vui lòng thêm thành viên trong mục "Quản Lý Thành Viên"!');
+      return;
+    }
+    if (femaleList.length === 0) {
+      alert('Tất cả các bạn Nữ đã được ghép đôi hết! Vui lòng bấm nút "Dữ Liệu Mẫu" ở góc trên để bắt đầu lại lượt mới.');
       return;
     }
 
@@ -353,10 +357,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  const femaleRemovedNotice = document.getElementById('femaleRemovedNotice');
+
   function onCoupleMatched(male, female) {
     // Record match history
     matchHistory.unshift({ male: male.name, female: female.name });
     renderHistory();
+
+    // Phía nữ quay trúng ai thì sẽ remove khỏi danh sách
+    const femaleIdx = femaleList.findIndex(f => f.name === female.name);
+    if (femaleIdx !== -1) {
+      femaleList.splice(femaleIdx, 1);
+      localStorage.setItem('gacha_female_candidates', JSON.stringify(femaleList));
+      femaleCountBadge.textContent = femaleList.length;
+      manageFemaleBadge.textContent = femaleList.length;
+      console.log(`[Removed Female] Đã loại "${female.name}". Còn lại: ${femaleList.length}`);
+    }
+
+    if (femaleRemovedNotice) {
+      femaleRemovedNotice.innerHTML = `<span>✨ Đã ghép đôi & loại <strong>${escapeHtml(female.name)}</strong> khỏi danh sách (Còn lại ${femaleList.length} bạn Nữ)</span>`;
+    }
 
     // Sound & Particles
     if (window.gachaAudio) window.gachaAudio.playRomanticChime();
@@ -414,25 +434,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Modal actions
-  btnCloseRomantic.addEventListener('click', () => {
+  function closeRomanticModal() {
     romanticModal.classList.remove('active');
     romanticModal.setAttribute('aria-hidden', 'true');
     if (window.romanticParticles) window.romanticParticles.stop();
-  });
 
-  btnSpinAgain.addEventListener('click', () => {
-    romanticModal.classList.remove('active');
-    romanticModal.setAttribute('aria-hidden', 'true');
-    if (window.romanticParticles) window.romanticParticles.stop();
-    setTimeout(triggerSpin, 300);
-  });
+    // Cập nhật lại dải cuộn phía nữ với danh sách còn lại
+    trackFemale.setCandidates(femaleList);
+  }
+
+  btnCloseRomantic.addEventListener('click', closeRomanticModal);
 
   romanticModal.addEventListener('click', (e) => {
     if (e.target === romanticModal) {
-      romanticModal.classList.remove('active');
-      romanticModal.setAttribute('aria-hidden', 'true');
-      if (window.romanticParticles) window.romanticParticles.stop();
+      closeRomanticModal();
     }
+  });
+
+  btnSpinAgain.addEventListener('click', () => {
+    closeRomanticModal();
+    if (femaleList.length === 0) {
+      alert('Tất cả các bạn Nữ đã được ghép đôi thành công! Vui lòng bấm nút "Dữ Liệu Mẫu" ở góc trên để bắt đầu lại lượt mới.');
+      return;
+    }
+    setTimeout(triggerSpin, 350);
   });
 
   // -------------------------------------------------------------

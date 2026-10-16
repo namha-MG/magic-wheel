@@ -854,6 +854,21 @@ body.gacha-body {
   font-style: italic;
 }
 
+.female-removed-notice {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(255, 42, 133, 0.12);
+  border: 1px solid rgba(255, 42, 133, 0.35);
+  border-radius: var(--radius-full);
+  color: #ff80ab;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
 /* Actions */
 .romantic-actions {
   display: flex;
