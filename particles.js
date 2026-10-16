@@ -131,13 +131,44 @@ class CelebrationParticleEngine {
     }
   }
 
+  /**
+   * Electric needle sparks emitted on card ratchet clicks
+   */
+  emitNeedleSparks(x, y, gender = 'male', count = 5) {
+    if (!this.canvas || !this.ctx) return;
+    const colors = gender === 'female'
+      ? ['#ff2a85', '#ff80ab', '#ffffff', '#ffd700']
+      : ['#00d2ff', '#ffd700', '#ffffff', '#00f0ff'];
+
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.random() - 0.5) * Math.PI * 1.5 - Math.PI / 2; // fan upwards
+      const speed = 2.5 + Math.random() * 5.5;
+      this.sparkles.push({
+        x: x + (Math.random() - 0.5) * 8,
+        y: y + (Math.random() - 0.5) * 12,
+        size: 2 + Math.random() * 2.5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        alpha: 1,
+        decay: 0.045 + Math.random() * 0.04,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed
+      });
+    }
+
+    if (!this.animating) {
+      this.animating = true;
+      this.render();
+    }
+  }
+
   render() {
     if (!this.animating) return;
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Update & draw sparkles
+    // Update & draw sparkles (with both vx and vy motion)
     for (let i = this.sparkles.length - 1; i >= 0; i--) {
       const s = this.sparkles[i];
+      s.x += (s.vx || 0);
       s.y += s.vy;
       s.alpha -= s.decay;
 

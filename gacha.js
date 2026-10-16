@@ -1,11 +1,11 @@
 /**
  * gacha.js - CS:GO / Hextech Style Dual Roller Physics Engine
  * Features:
- *  - Reactive needle flick physics with tactile kickback
+ *  - Reactive needle flick physics with tactile kickback & electric sparks
  *  - Dynamic velocity-based motion blur & high-speed light streaks
+ *  - 3D Drum Curvature & Center Card Spotlight Magnification
  *  - High-suspense crawl deceleration curve
- *  - Center card focus illumination
- *  - Dramatic Winner Lock-In moment with golden shockwave & jackpot chime
+ *  - Dramatic Winner Lock-In moment with golden shockwave, jackpot chime & fireworks
  */
 
 class GachaRollerTrack {
@@ -26,8 +26,9 @@ class GachaRollerTrack {
     this.startX = 0;
     this.isRolling = false;
     this.startTime = 0;
-    this.duration = 7400; // ms for perfect suspense rhythm
+    this.duration = 7500; // ms for perfect suspense rhythm
     this.lastCardTick = -1;
+    this.lastFocusedCardIndex = -1;
     this.winningCandidate = null;
     this.winningCardEl = null;
 
@@ -46,6 +47,7 @@ class GachaRollerTrack {
     if (!this.stripEl || this.candidates.length === 0) return;
     this.stripEl.innerHTML = '';
     this.stripEl.style.transform = 'translateX(0px)';
+    this.stripEl.style.filter = 'none';
 
     // Show 15 cards initially centered
     const previewCards = [];
@@ -127,6 +129,7 @@ class GachaRollerTrack {
     this.tapeCards = [];
     this.winningCandidate = winningCandidate;
     this.winningCardEl = null;
+    this.lastFocusedCardIndex = -1;
 
     const N = this.candidates.length;
 
@@ -173,7 +176,10 @@ class GachaRollerTrack {
     }
     if (this.viewportEl) {
       this.viewportEl.classList.remove('has-locked-winner', 'is-creeping-suspense');
-      this.viewportEl.classList.add('is-fast-spinning');
+      this.viewportEl.classList.add('is-fast-spinning', 'is-launching');
+      setTimeout(() => {
+        if (this.viewportEl) this.viewportEl.classList.remove('is-launching');
+      }, 420);
     }
 
     const viewportWidth = this.viewportEl.clientWidth || 900;
@@ -196,7 +202,6 @@ class GachaRollerTrack {
    * Rapid burst -> energetic glide -> progressive brake -> intense 1.5s creeping suspense
    */
   easeOutSuspense(t) {
-    // Custom tailored deceleration curve
     return 1 - Math.pow(1 - t, 4.6);
   }
 
@@ -215,23 +220,55 @@ class GachaRollerTrack {
       // Instantaneous velocity (1.0 at start, decaying to 0.0)
       const velocity = Math.max(0, 1 - Math.pow(progress, 0.7));
 
-      // Dynamic Motion Blur based on speed
+      // Dynamic Motion Blur on strip based on speed
+      if (velocity > 0.38) {
+        const blurPx = Math.min(3.5, velocity * 4).toFixed(1);
+        this.stripEl.style.filter = `blur(${blurPx}px)`;
+      } else {
+        this.stripEl.style.filter = 'none';
+      }
+
+      // Dynamic Viewport lighting states
       if (this.viewportEl) {
         if (progress > 0.45 && this.viewportEl.classList.contains('is-fast-spinning')) {
           this.viewportEl.classList.remove('is-fast-spinning');
         }
-        if (progress > 0.80 && !this.viewportEl.classList.contains('is-creeping-suspense')) {
+        if (progress > 0.78 && !this.viewportEl.classList.contains('is-creeping-suspense')) {
           this.viewportEl.classList.add('is-creeping-suspense');
         }
       }
 
-      // Audio click & Needle Physical Flick
+      // 3D Drum Spotlight: Magnify & illuminate card currently under the needle
+      const viewportWidth = this.viewportEl.clientWidth || 900;
+      const centerPoint = viewportWidth / 2;
+      const centerIdx = Math.round(((-this.currentX) + centerPoint - this.cardWidth / 2) / this.cardWidth);
+
+      if (centerIdx !== this.lastFocusedCardIndex) {
+        const allCards = this.stripEl.children;
+        if (this.lastFocusedCardIndex >= 0 && allCards[this.lastFocusedCardIndex]) {
+          allCards[this.lastFocusedCardIndex].classList.remove('is-center-focus');
+        }
+        if (allCards[centerIdx]) {
+          allCards[centerIdx].classList.add('is-center-focus');
+        }
+        this.lastFocusedCardIndex = centerIdx;
+      }
+
+      // Audio click & Needle Physical Flick & Electric Sparks
       const cardPassed = Math.floor(Math.abs(this.currentX) / this.cardWidth);
       if (cardPassed !== this.lastCardTick) {
         this.lastCardTick = cardPassed;
 
         // Needle flick bounce
         this.flickNeedle(cardPassed % 2 === 0 ? 1 : -1);
+
+        // Electric needle sparks
+        if (this.needleContainer && window.romanticParticles) {
+          const rect = this.needleContainer.getBoundingClientRect();
+          const sparkX = rect.left + rect.width / 2;
+          const sparkY = rect.bottom - 12;
+          window.romanticParticles.emitNeedleSparks(sparkX, sparkY, this.gender, velocity > 0.5 ? 4 : 2);
+        }
 
         // Sound ratchet click
         const pitch = this.gender === 'male' ? 1.0 : 1.15;
@@ -241,8 +278,8 @@ class GachaRollerTrack {
             velocity: velocity
           });
 
-          // Suspense heartbeat during last 15% of spin
-          if (progress > 0.82 && cardPassed % 2 === 0) {
+          // Suspense heartbeat during last 20% of spin
+          if (progress > 0.80 && cardPassed % 2 === 0) {
             window.gachaAudio.playTensionHeartbeat();
           }
         }
@@ -253,6 +290,7 @@ class GachaRollerTrack {
       // Reached exact target position
       this.currentX = this.targetX;
       this.stripEl.style.transform = `translateX(${this.currentX}px)`;
+      this.stripEl.style.filter = 'none';
       this.isRolling = false;
 
       // TRIGGER EPIC LOCK-IN MOMENT
@@ -262,8 +300,8 @@ class GachaRollerTrack {
 
   /**
    * Triumphant Winner Lock-In Moment
-   * Snaps needle, flashes golden shockwave, plays hextech lock-in chime,
-   * pauses 750ms for suspense payoff, then triggers modal.
+   * Snaps needle, flashes golden shockwave, emits fireworks over card,
+   * plays hextech lock-in chime, pauses 850ms for suspense payoff, then triggers modal.
    */
   handleWinnerLockIn() {
     if (this.viewportEl) {
@@ -276,7 +314,15 @@ class GachaRollerTrack {
     }
 
     if (this.winningCardEl) {
-      this.winningCardEl.classList.add('winner-locked-in');
+      this.winningCardEl.classList.add('winner-locked-in', 'is-center-focus');
+
+      // Burst fireworks directly over the locked winner card
+      if (window.romanticParticles) {
+        const rect = this.winningCardEl.getBoundingClientRect();
+        const burstX = rect.left + rect.width / 2;
+        const burstY = rect.top + rect.height / 2;
+        window.romanticParticles.burst(burstX, burstY, 35);
+      }
     }
 
     // Play euphoric Jackpot Lock-in Chime
@@ -284,12 +330,12 @@ class GachaRollerTrack {
       window.gachaAudio.playLockInSound(this.gender);
     }
 
-    // Delay callback by 750ms so user can enjoy seeing the locked card on the track
+    // Delay callback by 850ms so user can enjoy seeing the locked card on the track
     setTimeout(() => {
       if (this.onComplete) {
         this.onComplete(this.winningCandidate);
       }
-    }, 750);
+    }, 850);
   }
 }
 
